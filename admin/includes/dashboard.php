@@ -8,7 +8,7 @@ $breadcrumb_items = [
 ];
 
 // Include layout dan functions
-require_once '../includes/admin_layout.php';
+require_once '../includes/layout.php';
 
 // Ambil statistik dashboard
 $stats = getDashboardStats();
