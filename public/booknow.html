@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOURISM HOTEL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Baris atas */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 40px;
+            border-bottom: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        /* Left links */
+        .top-menu a {
+            text-decoration: none;
+            background-color: #BC8F8F;
+            color: white;
+            font-size: 13px;
+            margin-right: 20px;
+        }
+
+        /* Logo tengah */
+        .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        /* Book Now kanan */
+        .book-btn {
+            background-color: #BC8F8F;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .book-btn:hover {
+            background-color: #8a733f;
+        }
+
+        .card {
+            width: 300px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .feature span {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Main menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: thistle;">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link"
+                            style="color: black; font-weight: bold; font-family: georgia;" href="index.html">HOME</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"
+                            style="color: black; font-weight: bold; font-family: georgia;"
+                            href="index.html">FACILITIES</a></li>
+                    <li class="nav-item"><a class="nav-link"
+                            style="color: black; font-weight: bold; font-family: georgia;" href="index.html">ROOM</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f8f8;
+        }
+
+        .room {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .room h3 {
+            margin-top: 0;
+        }
+
+        .room button {
+            background: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .room button:hover {
+            background: #0056b3;
+        }
+
+        /* CART */
+        .cart {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            transition: right 0.3s ease;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .cart.active {
+            right: 0;
+        }
+
+        .close-cart {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .book-btn {
+            background: green;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .room {
+            display: flex;
+            /* bikin sejajar kiri-kanan */
+            flex-direction: row;
+            /* pastikan horizontal */
+            align-items: flex-start;
+            /* sejajarkan ke atas */
+            gap: 20px;
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .room-container {
+            position: relative;
+        }
+
+        .room-info {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            width: 500px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <div class="room-container text-center">
+            <img src="img/bookbed.jpg" alt="bookbed" width="100%">
+            <div class="room-info">
+                <h3 style="font-family: georgia; font-style: italic; color:#8a733f;">Tourism Hotel</h3>
+                <p style="font-family: lora; font-size: 18px;">Jalan Kapitan Pattimura Kota no 37 Medan</p>
+                <p style="font-family: lora; font-size: 18px;">Sumatera Utara</p>
+                <p style="font-family: lora; font-size: 18px;">+6282150263345</p>
+            </div>
+        </div>
+
+        <!-- ROOM 1 -->
+        <h1 style="text-align:center; margin:20px;">Select Room</h1>
+        <br>
+        <hr>
+        <div class="room">
+            <img src="img/executive.jpg" alt="Suite" width="50%">
+            <div class="room-details">
+                <h3>Suite</h3>
+                <p>a spacious and luxurious room designed with premium facilities for maximum comfort. Perfect for
+                    guests
+                    seeking an exclusives stay with top-class service</p>
+                <p class="price">IDR 3,000,000</p>
+
+                <label>Adults:</label>
+                <select id="adults1">
+                    <option value="1">1 Adult</option>
+                    <option value="2">2 Adults</option>
+                </select>
+
+                <label>Children:</label>
+                <select id="children1">
+                    <option value="0">0 Child</option>
+                    <option value="1">1 Child</option>
+                    <option value="2">2 Children</option>
+                </select>
+
+                <br>
+                <button onclick="addToCart('Junior Suite City View', 3000000, 'adults1', 'children1')">Book Now</button>
+            </div>
+        </div>
+
+        <!-- ROOM 2 -->
+        <div class="room">
+            <img src="img/deluxe.jpg" alt="deluxe" width="50%">
+            <div class="room-details">
+                <h3>Deluxe</h3>
+                <p>an Elegant room with modern design and complete amenities. Offering extra comfort at a friendly
+                    price,
+                    ideal for both business and leisure travelers</p>
+                <p class="price">IDR 2,000,000</p>
+
+                <label>Adults:</label>
+                <select id="adults1">
+                    <option value="1">1 Adult</option>
+                    <option value="2">2 Adults</option>
+                </select>
+
+                <label>Children:</label>
+                <select id="children1">
+                    <option value="0">0 Child</option>
+                    <option value="1">1 Child</option>
+                    <option value="2">2 Children</option>
+                </select>
+
+                <br>
+                <button onclick="addToCart('Junior Suite City View', 2000000, 'adults1', 'children1')">Book Now</button>
+            </div>
+        </div>
+
+        <!--room -3 -->
+        <div class="room">
+            <img src="img/standard.jpg" alt="standard" width="50%">
+            <div class="room-details">
+                <h3>Standard</h3>
+                <p>a cozy, simple, and functional room. Equipped with dacilities to ensure a pleasant stay at an
+                    affordable
+                    rate</p>
+                <p class="price">IDR 1,000,000</p>
+
+                <label>Adults:</label>
+                <select id="adults1">
+                    <option value="1">1 Adult</option>
+                    <option value="2">2 Adults</option>
+                </select>
+
+                <label>Children:</label>
+                <select id="children1">
+                    <option value="0">0 Child</option>
+                    <option value="1">1 Child</option>
+                    <option value="2">2 Children</option>
+                </select>
+
+                <br>
+                <button onclick="addToCart('Junior Suite City View', 1000000, 'adults1', 'children1')">Book Now</button>
+            </div>
+        </div>
+        <!-- CART -->
+        <div class="cart" id="cart">
+            <button class="close-cart" onclick="toggleCart()">X</button>
+            <h2>Your Cart</h2>
+            <div id="cart-details"></div>
+            <hr>
+            <h3 id="cart-total"></h3>
+            <button class="book-btn">Checkout</button>
+        </div>
+
+        <script>
+            function toggleCart() {
+                document.getElementById("cart").classList.toggle("active");
+            }
+
+            function addToCart(roomName, price, adultsId, childrenId) {
+                let adults = document.getElementById(adultsId).value;
+                let children = document.getElementById(childrenId).value;
+
+                let taxes = Math.round(price * 0.21); // Pajak 21%
+                let total = price + taxes;
+
+                document.getElementById("cart-details").innerHTML = `
+        <p><strong>${roomName}</strong></p>
+        <p>Best Available Rate with Breakfast</p>
+        <p>1 Night stay</p>
+        <p>Guests: ${adults} Adult(s), ${children} Child(ren)</p>
+        <p>Price: IDR ${price.toLocaleString()}</p>
+        <p>Taxes and Fees: IDR ${taxes.toLocaleString()}</p>
+      `;
+
+                document.getElementById("cart-total").innerHTML =
+                    `Total: IDR ${total.toLocaleString()}`;
+
+                document.getElementById("cart").classList.add("active");
+            }
+        </script>
+
+        <footer class="bg-info text-white text-center py-4">
+            <p class="mb-0">&copy; 2025 SMART Tourism. All rights reserved.</p>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>
