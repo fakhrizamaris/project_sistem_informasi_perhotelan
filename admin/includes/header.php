@@ -322,7 +322,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </div>
 
             <div class="menu-item">
-                <a href="guests.php" class="menu-link <?php echo $current_page == 'guests' ? 'active' : ''; ?>">
+                <a href="tamu.php" class="menu-link <?php echo $current_page == 'tamu' ? 'active' : ''; ?>">
                     <i class="fas fa-users"></i>
                     <span class="menu-text">Data Tamu</span>
                 </a>
