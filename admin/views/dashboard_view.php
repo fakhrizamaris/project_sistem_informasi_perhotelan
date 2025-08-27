@@ -7,9 +7,9 @@ global $stats, $recent_reservations;
 <div class="row mb-4">
     <div class="col-12">
         <div class="content-card">
-            <div class="card-body">
+            <div class="card-body p-4">
                 <h4 class="card-title">Selamat Datang, <?php echo htmlspecialchars($_SESSION['nama']); ?>!</h4>
-                <p class="text-muted">Berikut adalah ringkasan aktivitas hotel hari ini, <?php echo date('d F Y'); ?>.</p>
+                <p class="text-muted mb-0">Berikut adalah ringkasan aktivitas hotel hari ini, <?php echo date('d F Y'); ?>.</p>
             </div>
         </div>
     </div>
@@ -84,11 +84,11 @@ global $stats, $recent_reservations;
 <div class="row">
     <div class="col-12">
         <div class="content-card">
-            <div class="card-header">
+            <div class="card-header p-4">
                 <h5 class="mb-0">Reservasi Terbaru</h5>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive ps-3">
                     <table class="table table-hover">
                         <thead>
                             <tr>

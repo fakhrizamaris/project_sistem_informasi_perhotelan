@@ -32,7 +32,7 @@ if (!$stats) {
         <div class="content-card">
             <div class="card-body-custom">
                 <div class="row align-items-center">
-                    <div class="col-md-8">
+                    <div class="col-md-6 pe-3">
                         <h2 class="mb-1">Selamat Datang, <?php echo $_SESSION['nama']; ?>!</h2>
                         <p class="text-muted mb-0">Berikut adalah ringkasan aktivitas hotel hari ini.</p>
                     </div>

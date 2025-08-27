@@ -164,7 +164,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         }
 
         .card-body-custom {
-            padding: 1.5rem;
+            padding: 0.2rem;
         }
 
         /* Buttons */
@@ -276,10 +276,6 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
 <body>
     <!-- Sidebar Toggle Button (Mobile) -->
-    <button class="sidebar-toggle" id="sidebarToggle">
-        <i class="fas fa-bars"></i>
-    </button>
-
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">

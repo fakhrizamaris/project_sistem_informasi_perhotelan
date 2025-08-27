@@ -1,11 +1,12 @@
 <?php
 // admin/controllers/ReservationController.php
 
-require_once '../config/koneksi.php';
-require_once '../models/Reservation.php';
-require_once '../models/Guest.php';
-require_once '../models/Room.php';
-require_once 'includes/functions.php'; // Memuat helper functions
+// PERBAIKAN: Path diubah dari ../ menjadi ../../ dan nama file Guest.php diubah menjadi Tamu.php
+require_once __DIR__ . '/../../config/koneksi.php';
+require_once __DIR__ . '/../../models/Reservation.php';
+require_once __DIR__ . '/../../models/Tamu.php'; // Sebelumnya: ../models/Guest.php
+require_once __DIR__ . '/../../models/Room.php';
+require_once __DIR__ . '/../includes/functions.php'; // PERBAIKAN: Path disesuaikan
 
 // Cek otentikasi (jika diperlukan, aktifkan nanti)
 // session_start();
@@ -14,7 +15,7 @@ require_once 'includes/functions.php'; // Memuat helper functions
 
 // Inisialisasi Model
 $reservationModel = new Reservation();
-$guestModel = new Guest();
+$guestModel = new Guest(); // Nama class-nya tetap Guest, sesuai isi file Tamu.php
 $roomModel = new Room();
 $page_title = 'Kelola Reservasi';
 
@@ -63,4 +64,4 @@ if (isset($_GET['view'])) {
 }
 
 // Memanggil file layout yang akan merangkai header, view, dan footer
-require_once 'includes/layout.php';
+require_once __DIR__ . '/../includes/layout.php'; // PERBAIKAN: Path disesuaikan
