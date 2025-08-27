@@ -1,44 +1,29 @@
 <?php
-// includes/admin_layout.php
-// Wrapper untuk layout admin yang konsisten
+// admin/includes/layout.php
 
-// Pastikan auth dan functions sudah di-include
-require_once '../includes/auth.php';
-require_once '../includes/functions.php';
+// Pastikan auth dan functions sudah di-include di controller
+// ... (kode header lainnya)
 
-// Cek role admin
-auth()->requireRole('admin');
-
-// Variabel untuk customization halaman
-$page_title = isset($page_title) ? $page_title : 'Admin Dashboard';
-$additional_css = isset($additional_css) ? $additional_css : '';
-$additional_js = isset($additional_js) ? $additional_js : '';
-$external_js = isset($external_js) ? $external_js : [];
-$breadcrumb_items = isset($breadcrumb_items) ? $breadcrumb_items : [];
+// Ambil nama file saat ini (misal: 'dashboard' dari 'dashboard.php')
+$page_name = basename($_SERVER['PHP_SELF'], '.php');
+// Tentukan path ke file view yang sesuai
+$content_file = "views/{$page_name}_view.php";
 
 // Include header
-include '../includes/admin_header.php';
+include 'includes/header.php';
 ?>
 
-<!-- Content Area Start -->
-<?php if (!empty($breadcrumb_items)): ?>
-    <div class="row mb-3">
-        <div class="col-12">
-            <?php echo generateBreadcrumb($breadcrumb_items); ?>
-        </div>
-    </div>
-<?php endif; ?>
-
-<!-- Page Content akan diisi oleh halaman yang menggunakan layout ini -->
-<?php
-// Content akan diisi oleh file yang include layout ini
-if (isset($content_file)) {
-    include $content_file;
-}
-?>
-<!-- Content Area End -->
-
+<div class="container-fluid">
+    <?php
+    // Muat file view jika ada
+    if (file_exists($content_file)) {
+        include $content_file;
+    } else {
+        echo "<div class='alert alert-danger'>View file not found: {$content_file}</div>";
+    }
+    ?>
+</div>
 <?php
 // Include footer
-include '../includes/admin_footer.php';
+include 'includes/footer.php';
 ?>

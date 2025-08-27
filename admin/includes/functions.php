@@ -2,7 +2,7 @@
 // includes/functions.php
 // Fungsi-fungsi helper untuk sistem hotel
 
-require_once 'config/database.php';
+require_once __DIR__ . '/../../config/koneksi.php';
 
 /**
  * FUNGSI ALERT DAN NOTIFIKASI

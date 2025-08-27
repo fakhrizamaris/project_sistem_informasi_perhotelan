@@ -1,57 +1,47 @@
 <?php
 // config/database.php
-// Konfigurasi koneksi database
+// Konfigurasi koneksi database dengan perbaikan
 
-// Informasi database - sesuaikan dengan setting XAMPP Anda
 define('DB_HOST', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', ''); // Kosong untuk XAMPP default
+define('DB_PASSWORD', '');
 define('DB_NAME', 'db_hotel');
 
-class Database {
-    private $host = DB_HOST;
-    private $username = DB_USERNAME;
-    private $password = DB_PASSWORD;
-    private $database = DB_NAME;
+class Database
+{
+    private static $instance = null;
     private $connection;
-    
-    // Method untuk membuat koneksi
-    public function connect() {
-        $this->connection = null;
-        
+
+    private function __construct()
+    {
         try {
-            // Membuat koneksi PDO (lebih aman dari mysqli)
-            $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->database . ";charset=utf8";
-            $this->connection = new PDO($dsn, $this->username, $this->password);
-            
-            // Set error mode untuk debugging
+            $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+            $this->connection = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-        } catch(PDOException $e) {
-            echo "Koneksi gagal: " . $e->getMessage();
-            die();
+            $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+            $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        } catch (PDOException $e) {
+            die("Koneksi database gagal: " . $e->getMessage());
         }
-        
-        return $this->connection;
     }
-    
-    // Method untuk menutup koneksi
-    public function close() {
-        $this->connection = null;
+
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function getConnection()
+    {
+        return $this->connection;
     }
 }
 
 // Fungsi helper untuk mendapatkan koneksi database
-function getDBConnection() {
-    $database = new Database();
-    return $database->connect();
+function getDB()
+{
+    return Database::getInstance()->getConnection();
 }
-
-// Test koneksi (bisa dihapus setelah yakin koneksi berhasil)
-try {
-    $db = getDBConnection();
-    echo "Koneksi database berhasil!";
-} catch(Exception $e) {
-    die("Error koneksi database: " . $e->getMessage());
-}
-?>
