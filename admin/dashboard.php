@@ -1,22 +1,11 @@
 <?php
 // admin/dashboard.php
-
-// Memastikan pengguna sudah login dan memulai session
 session_start();
+require_once __DIR__ . '/../includes/auth.php';
 
-/*
-// =======================================================
-// PENGECEKAN SESI SEMENTARA DINONAKTIFKAN UNTUK PREVIEW
-// =======================================================
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ../login.php');
-    exit();
-}
-*/
-
-// Menambahkan nama default agar tidak error saat menampilkan di view
-$_SESSION['nama'] = $_SESSION['nama'] ?? 'Guest (Preview)';
-
+// Hanya user dengan role 'admin' yang bisa akses halaman ini
+Auth::requireRole('admin');
 
 // Memanggil controller dashboard untuk memproses dan menampilkan halaman
-require_once 'controllers/dashboard_controller.php';
+require_once __DIR__ . '/controllers/dashboard_controller.php';
+?>
