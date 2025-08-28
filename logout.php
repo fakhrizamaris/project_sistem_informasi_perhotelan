@@ -13,7 +13,7 @@ session_destroy();
 
 // 4. Arahkan pengguna kembali ke halaman login
 // Ini adalah bagian penting yang akan membawa pengguna ke halaman login.
-header("Location: public/index.html");
+header("Location: public/index.php");
 
 // 5. Hentikan eksekusi skrip
 // Penting untuk memastikan tidak ada kode lain yang berjalan setelah redirect.

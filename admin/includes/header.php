@@ -310,12 +310,23 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 </a>
             </div>
 
+            // admin/includes/header.php
+
+            // ... (kode menu lainnya)
             <div class="menu-item">
                 <a href="tamu.php" class="menu-link <?php echo $current_page == 'tamu' ? 'active' : ''; ?>">
                     <i class="fas fa-users"></i>
                     <span class="menu-text">Data Tamu</span>
                 </a>
             </div>
+
+            <div class="menu-item">
+                <a href="manage_guest_users.php" class="menu-link <?php echo $current_page == 'manage_guest_users' ? 'active' : ''; ?>">
+                    <i class="fas fa-user-check"></i>
+                    <span class="menu-text">User Tamu</span>
+                </a>
+            </div>
+
 
             <div class="menu-item">
                 <a href="manage_staff.php" class="menu-link <?php echo $current_page == 'manage_staff' ? 'active' : ''; ?>">
