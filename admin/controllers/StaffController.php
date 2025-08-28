@@ -11,40 +11,44 @@ $staff_to_edit = null;
 
 // ROUTING
 $action = $_GET['action'] ?? 'index';
-$id = $_GET['id'] ?? null;
+$id = $_GET['id'] ?? null; // Ini adalah id_pegawai
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $action = $_POST['action'] ?? $action;
-    switch ($action) {
-        case 'create':
-            $data = [
-                'nama' => $_POST['nama'],
-                'username' => $_POST['username'],
-                'password' => $_POST['password'],
-                'role' => $_POST['role']
-            ];
-            if ($staffModel->create($data)) {
-                setSuccess('Staff baru berhasil ditambahkan.');
-            } else {
-                setError('Gagal menambahkan staff. Username mungkin sudah digunakan.');
-            }
-            break;
-        case 'update':
-            $data = [
-                'nama' => $_POST['nama'],
-                'username' => $_POST['username'],
-                'password' => $_POST['password'], // Kosongkan jika tidak ingin ganti
-                'role' => $_POST['role']
-            ];
-            if ($staffModel->update($id, $data)) {
-                setSuccess('Data staff berhasil diperbarui.');
-            } else {
-                setError('Gagal memperbarui data staff.');
-            }
-            break;
+    $action_post = $_POST['action'] ?? '';
+
+    if ($action_post === 'create') {
+        $data = [
+            'nama'      => $_POST['nama'],
+            'jabatan'   => $_POST['jabatan'],
+            'username'  => $_POST['username'],
+            'password'  => $_POST['password'],
+            'role'      => $_POST['role'],
+            'status'    => 'aktif'
+        ];
+        if ($staffModel->create($data)) {
+            setSuccess('Staff baru berhasil ditambahkan.');
+        } else {
+            setError('Gagal menambahkan staff. Username mungkin sudah digunakan.');
+        }
+        header('Location: manage_staff.php');
+        exit;
+    } elseif ($action === 'update' && $id) {
+        $data = [
+            'nama'      => $_POST['nama'],
+            'jabatan'   => $_POST['jabatan'],
+            'status'    => $_POST['status'],
+            'username'  => $_POST['username'],
+            'password'  => $_POST['password'], // Boleh kosong
+            'role'      => $_POST['role']
+        ];
+        if ($staffModel->update($id, $data)) {
+            setSuccess('Data staff berhasil diperbarui.');
+        } else {
+            setError('Gagal memperbarui data staff.');
+        }
+        header('Location: manage_staff.php');
+        exit;
     }
-    header('Location: manage_staff.php');
-    exit;
 } else { // Metode GET
     switch ($action) {
         case 'edit':
@@ -57,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($staffModel->delete($id)) {
                     setSuccess('Data staff berhasil dihapus.');
                 } else {
-                    setError('Gagal menghapus staff. Anda tidak bisa menghapus akun sendiri.');
+                    setError('Gagal menghapus staff.');
                 }
                 header('Location: manage_staff.php');
                 exit;

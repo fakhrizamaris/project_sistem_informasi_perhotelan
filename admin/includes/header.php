@@ -283,73 +283,81 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 <i class="fas fa-hotel"></i>
                 <div class="logo-text">
                     <h5 class="text-white mb-0">Hotel System</h5>
-                    <small class="text-light opacity-75">Admin Panel</small>
+                    <small class="text-light opacity-75"><?php echo ucfirst($_SESSION['role']); ?> Panel</small>
                 </div>
             </div>
         </div>
 
         <div class="sidebar-menu">
-    <div class="menu-item">
-        <a href="dashboard.php" class="menu-link <?php echo $current_page == 'dashboard' ? 'active' : ''; ?>">
-            <i class="fas fa-tachometer-alt"></i>
-            <span class="menu-text">Dashboard</span>
-        </a>
-    </div>
+            <div class="menu-item">
+                <a href="dashboard.php" class="menu-link <?php echo $current_page == 'dashboard' ? 'active' : ''; ?>">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="menu-text">Dashboard</span>
+                </a>
+            </div>
 
-    <div class="menu-item">
-        <a href="reservations.php" class="menu-link <?php echo $current_page == 'reservations' ? 'active' : ''; ?>">
-            <i class="fas fa-calendar-check"></i>
-            <span class="menu-text">Reservasi</span>
-        </a>
-    </div>
+            <div class="menu-item">
+                <a href="reservations.php" class="menu-link <?php echo $current_page == 'reservations' ? 'active' : ''; ?>">
+                    <i class="fas fa-calendar-check"></i>
+                    <span class="menu-text">Reservasi</span>
+                </a>
+            </div>
 
-    <div class="menu-item">
-        <a href="tamu.php" class="menu-link <?php echo $current_page == 'tamu' ? 'active' : ''; ?>">
-            <i class="fas fa-users"></i>
-            <span class="menu-text">Data Tamu</span>
-        </a>
-    </div>
+            <div class="menu-item">
+                <a href="tamu.php" class="menu-link <?php echo $current_page == 'tamu' ? 'active' : ''; ?>">
+                    <i class="fas fa-users"></i>
+                    <span class="menu-text">Data Tamu</span>
+                </a>
+            </div>
 
-    <?php // Menu khusus untuk Admin ?>
-    <?php if ($_SESSION['role'] === 'admin'): ?>
-        <div class="menu-item">
-            <a href="manage_rooms.php" class="menu-link <?php echo $current_page == 'manage_rooms' ? 'active' : ''; ?>">
-                <i class="fas fa-bed"></i>
-                <span class="menu-text">Kelola Kamar</span>
-            </a>
+            <?php // Menu khusus untuk Admin 
+            ?>
+            <?php if ($_SESSION['role'] === 'admin'): ?>
+                <div class="menu-item">
+                    <a href="manage_rooms.php" class="menu-link <?php echo $current_page == 'manage_rooms' ? 'active' : ''; ?>">
+                        <i class="fas fa-bed"></i>
+                        <span class="menu-text">Kelola Kamar</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a href="manage_guest_users.php" class="menu-link <?php echo $current_page == 'manage_guest_users' ? 'active' : ''; ?>">
+                        <i class="fas fa-user-check"></i>
+                        <span class="menu-text">User Tamu</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a href="manage_staff.php" class="menu-link <?php echo $current_page == 'manage_staff' ? 'active' : ''; ?>">
+                        <i class="fas fa-user-tie"></i>
+                        <span class="menu-text">Kelola Staff</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a href="users.php" class="menu-link <?php echo $current_page == 'users' ? 'active' : ''; ?>">
+                        <i class="fas fa-users-cog"></i>
+                        <span class="menu-text">Data Users</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a href="reports.php" class="menu-link <?php echo $current_page == 'reports' ? 'active' : ''; ?>">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="menu-text">Laporan</span>
+                    </a>
+                </div>
+            <?php endif; ?>
+
+            <hr class="my-3" style="border-color: rgba(255, 255, 255, 0.2);">
+
+            <div class="menu-item">
+                <a href="../logout.php" class="menu-link text-warning" onclick="return confirm('Yakin ingin logout?')">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Logout</span>
+                </a>
+            </div>
         </div>
-
-        <div class="menu-item">
-            <a href="manage_guest_users.php" class="menu-link <?php echo $current_page == 'manage_guest_users' ? 'active' : ''; ?>">
-                <i class="fas fa-user-check"></i>
-                <span class="menu-text">User Tamu</span>
-            </a>
-        </div>
-
-        <div class="menu-item">
-            <a href="manage_staff.php" class="menu-link <?php echo $current_page == 'manage_staff' ? 'active' : ''; ?>">
-                <i class="fas fa-user-tie"></i>
-                <span class="menu-text">Kelola Staff</span>
-            </a>
-        </div>
-
-        <div class="menu-item">
-            <a href="reports.php" class="menu-link <?php echo $current_page == 'reports' ? 'active' : ''; ?>">
-                <i class="fas fa-chart-bar"></i>
-                <span class="menu-text">Laporan</span>
-            </a>
-        </div>
-    <?php endif; ?>
-
-    <hr class="my-3" style="border-color: rgba(255, 255, 255, 0.2);">
-
-    <div class="menu-item">
-        <a href="../logout.php" class="menu-link text-warning" onclick="return confirm('Yakin ingin logout?')">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="menu-text">Logout</span>
-        </a>
-    </div>
-</div>
     </nav>
 
     <!-- Main Content -->
@@ -362,7 +370,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         <i class="fas fa-bars"></i>
                     </button>
                     <h4 class="navbar-brand mb-0">
-                        <?php echo isset($page_title) ? $page_title : 'Admin Dashboard'; ?>
+                        <?php echo isset($page_title) ? $page_title : 'Dashboard'; ?>
                     </h4>
                 </div>
 
@@ -377,11 +385,6 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                             <li>
                                 <a class="dropdown-item" href="profile.php">
                                     <i class="fas fa-user me-2"></i>Profil
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="settings.php">
-                                    <i class="fas fa-cog me-2"></i>Pengaturan
                                 </a>
                             </li>
                             <li>

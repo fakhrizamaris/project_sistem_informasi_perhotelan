@@ -20,6 +20,76 @@ class Pegawai
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllUsers()
+    {
+        $stmt = $this->db->query("SELECT id_user, username, nama, role FROM users ORDER BY nama ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function createUser($data)
+    {
+        try {
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+            $stmt = $this->db->prepare("INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)");
+            return $stmt->execute([
+                $data['username'],
+                $hashedPassword,
+                $data['nama'],
+                $data['role']
+            ]);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Mengupdate data user
+     */
+    public function updateUser($id, $data)
+    {
+        try {
+            if (!empty($data['password'])) {
+                $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+                $stmt = $this->db->prepare("UPDATE users SET username = ?, nama = ?, role = ?, password = ? WHERE id_user = ?");
+                $stmt->execute([$data['username'], $data['nama'], $data['role'], $hashedPassword, $id]);
+            } else {
+                $stmt = $this->db->prepare("UPDATE users SET username = ?, nama = ?, role = ? WHERE id_user = ?");
+                $stmt->execute([$data['username'], $data['nama'], $data['role'], $id]);
+            }
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Menghapus user
+     */
+    public function deleteUser($id)
+    {
+        // Pencegahan agar tidak bisa menghapus diri sendiri
+        if (isset($_SESSION['user_id']) && $id == $_SESSION['user_id']) {
+            return false;
+        }
+
+        try {
+            $stmt = $this->db->prepare("DELETE FROM users WHERE id_user = ?");
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            // Gagal hapus jika user terhubung dengan data lain (misal: pegawai atau tamu)
+            return false;
+        }
+    }
+
+    /**
+     * Mengambil data user berdasarkan ID
+     */
+    public function getUserById($id)
+    {
+        $stmt = $this->db->prepare("SELECT id_user, username, nama, role FROM users WHERE id_user = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function getById($id)
     {
         $stmt = $this->db->prepare("SELECT p.*, u.username, u.role 
@@ -29,6 +99,7 @@ class Pegawai
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
 
     public function create($data)
     {

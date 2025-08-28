@@ -5,8 +5,13 @@
 require_once '../config/koneksi.php';
 require_once 'includes/functions.php'; // Lokasi functions.php
 
-// Konfigurasi Halaman
-$page_title = 'Dashboard Admin';
+// Konfigurasi Halaman berdasarkan Role
+if ($_SESSION['role'] === 'admin') {
+    $page_title = 'Dashboard Admin';
+} else {
+    $page_title = 'Dashboard Resepsionis';
+}
+
 $breadcrumb_items = [
     ['title' => 'Dashboard']
 ];

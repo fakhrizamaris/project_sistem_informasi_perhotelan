@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 28, 2025 at 02:31 AM
+-- Generation Time: Aug 28, 2025 at 04:43 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -35,16 +35,16 @@ CREATE TABLE `kamar` (
   `status` enum('kosong','terisi','dibooking','maintenance') DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `kamar`
 --
 
 INSERT INTO `kamar` (`id_kamar`, `tipe_kamar`, `no_kamar`, `harga`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'suite', 1, '3000000', 'kosong', '2025-08-28 01:18:16', '2025-08-28 01:18:16'),
 (2, 'standar', 2, '1000000', 'kosong', '2025-08-28 01:18:38', '2025-08-28 01:18:38'),
-(3, 'deluxe', 3, '2000000', 'kosong', '2025-08-28 01:18:52', '2025-08-28 01:18:52');
+(3, 'deluxe', 3, '2000000', 'dibooking', '2025-08-28 01:18:52', '2025-08-28 01:18:52'),
+(5, 'suite', 10, '3000000', 'kosong', '2025-08-28 15:25:06', '2025-08-28 15:25:06');
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,15 @@ CREATE TABLE `pegawai` (
   `jabatan` varchar(50) NOT NULL,
   `status` enum('aktif','non_aktif') DEFAULT 'aktif',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pegawai`
+--
+
+INSERT INTO `pegawai` (`id_pegawai`, `id_user`, `nama`, `jabatan`, `status`, `created_at`) VALUES
+(4, NULL, 'Admin Utama', 'admin', 'aktif', '2025-08-28 16:06:56'),
+(6, NULL, 'Fakhri Djamaris', 'resepsionis', 'aktif', '2025-08-28 16:06:56');
 
 -- --------------------------------------------------------
 
@@ -73,9 +81,19 @@ CREATE TABLE `pembayaran` (
   `metode` enum('cash','transfer','kartu_kredit','e_wallet') NOT NULL,
   `jumlah` decimal(12,2) NOT NULL,
   `status` enum('pending','berhasil','gagal') DEFAULT 'pending',
+  `bukti_pembayaran` varchar(255) DEFAULT NULL,
   `tgl_bayar` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pembayaran`
+--
+
+INSERT INTO `pembayaran` (`id_pembayaran`, `id_reservasi`, `metode`, `jumlah`, `status`, `bukti_pembayaran`, `tgl_bayar`, `created_at`) VALUES
+(1, 6, 'transfer', 1000000.00, 'pending', '68b014bb0d32c-meme.png', '2025-08-28 15:35:07', '2025-08-28 08:35:07'),
+(2, 6, 'transfer', 1000000.00, 'pending', '68b014ccd32cf-image rpl.jpg', '2025-08-28 15:35:24', '2025-08-28 08:35:24'),
+(3, 6, 'transfer', 1000000.00, 'pending', '68b014dd58d26-image rpl.jpg', '2025-08-28 15:35:41', '2025-08-28 08:35:41');
 
 -- --------------------------------------------------------
 
@@ -93,7 +111,7 @@ CREATE TABLE `reservasi` (
   `status` enum('pending','confirmed','checkin','checkout','cancelled') DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reservasi`
@@ -102,7 +120,8 @@ CREATE TABLE `reservasi` (
 INSERT INTO `reservasi` (`id_reservasi`, `id_tamu`, `id_kamar`, `tgl_checkin`, `tgl_checkout`, `total_biaya`, `status`, `created_at`, `updated_at`) VALUES
 (3, 1, 2, '2025-08-28', '2025-08-29', 1000000.00, 'checkout', '2025-08-28 01:43:36', '2025-08-28 02:07:08'),
 (4, 1, 3, '2025-08-28', '2025-08-30', 4000000.00, 'checkout', '2025-08-28 01:47:07', '2025-08-28 02:06:16'),
-(5, 1, 1, '2025-08-27', '2025-08-28', 3000000.00, 'checkout', '2025-08-28 01:57:14', '2025-08-28 02:05:47');
+(6, 3, 2, '2025-08-28', '2025-08-29', 1000000.00, 'cancelled', '2025-08-28 08:14:49', '2025-08-28 15:03:34'),
+(8, 3, 3, '2025-08-28', '2025-08-30', 4000000.00, 'confirmed', '2025-08-28 15:09:59', '2025-08-28 15:09:59');
 
 -- --------------------------------------------------------
 
@@ -119,14 +138,17 @@ CREATE TABLE `tamu` (
   `no_hp` varchar(15) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tamu`
 --
 
 INSERT INTO `tamu` (`id_tamu`, `id_user`, `nama`, `no_identitas`, `alamat`, `no_hp`, `email`, `created_at`) VALUES
-(1, NULL, 'asdasd', '123123123123', 'asdasd1312', '14123123123', 'djamaris@gmail.com', '2025-08-27 15:09:24');
+(1, NULL, 'asdasd', '123123123123', 'asdasd1312', '14123123123', 'djamaris@gmail.com', '2025-08-27 15:09:24'),
+(3, 8, 'FAKHRI DJAMARIS', '1203891238912829312', NULL, '081959243545', 'fajarahmadkurniadi@gmail.com', '2025-08-28 03:52:50'),
+(4, 10, 'FAKHRI DJAMARIS', '12312312312314', '', '081959243545', 'mahasiswa1@mahasiswa.com', '2025-08-28 16:00:21'),
+(5, 11, 'FAKHRI DJAMARIS', '13123123123123123', '', '081959243545', 'perusahaan1@perusahaan.com', '2025-08-28 16:00:56');
 
 -- --------------------------------------------------------
 
@@ -142,7 +164,7 @@ CREATE TABLE `users` (
   `role` enum('admin','resepsionis','manajer','tamu') NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -152,7 +174,10 @@ INSERT INTO `users` (`id_user`, `username`, `password`, `nama`, `role`, `created
 (1, 'admin', 'admin123', 'admin1', 'admin', '2025-08-27 01:49:57', '2025-08-27 01:49:57'),
 (3, 'admin2', '$2y$10$YVNfUSNKLhm0RDMBAFntHuLH6se3bWskL.GmvQ4ZqGN2fMArA/q2O', 'admin2', 'admin', '2025-08-27 01:54:43', '2025-08-27 01:54:43'),
 (4, 'manajer', '$2y$10$83W2aYma5hLXW5RnVhv5m.9dbBPrXyVxcEdSd4W1Qfv18YVUjIJIS', 'Manajer', 'manajer', '2025-08-27 01:56:59', '2025-08-27 01:56:59'),
-(5, 'resepsionis', '$2y$10$kNGzv.g1X86pzID/zmzrfOMLyVaYbg/QmzYbM3NWKCeYVonMLzDbi', 'Fakhri Djamaris', 'resepsionis', '2025-08-27 15:25:14', '2025-08-27 15:25:14');
+(8, 'fajar', '$2y$10$xn17/JIhpAjSqJUYXgMIL.FnzFqA5M7cJD.g9N.Fqcpqvo.JTJP0S', 'FAKHRI DJAMARIS', 'tamu', '2025-08-28 03:52:50', '2025-08-28 03:52:50'),
+(10, 'fakhri', '$2y$10$v4jYWN7sHujX/I0EQuM.qObQszLVYXaCsCt4Bp8h5TWcGrRs5KOc.', 'FAKHRI DJAMARIS', 'tamu', '2025-08-28 16:00:21', '2025-08-28 16:00:21'),
+(11, 'user1', '$2y$10$EjAJUa7TuK1siz82I2Fu4OR5tcEiaNjmml1hcFMU31IRuO2z7q0zS', 'FAKHRI DJAMARIS', 'tamu', '2025-08-28 16:00:56', '2025-08-28 16:00:56'),
+(12, 'resepsionis', '$2y$10$eAj8VJBUeOsMrO2zfbtWcOgBUxiw1tKhjVWs5EPsE81R7PyyZ8U4q', 'tes', 'resepsionis', '2025-08-28 16:20:19', '2025-08-28 16:20:19');
 
 --
 -- Indexes for dumped tables
@@ -209,37 +234,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `kamar`
 --
 ALTER TABLE `kamar`
-  MODIFY `id_kamar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_kamar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pegawai`
 --
 ALTER TABLE `pegawai`
-  MODIFY `id_pegawai` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pegawai` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id_pembayaran` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pembayaran` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `reservasi`
 --
 ALTER TABLE `reservasi`
-  MODIFY `id_reservasi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_reservasi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tamu`
 --
 ALTER TABLE `tamu`
-  MODIFY `id_tamu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_tamu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

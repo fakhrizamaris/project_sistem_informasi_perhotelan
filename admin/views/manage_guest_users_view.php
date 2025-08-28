@@ -6,7 +6,7 @@ global $guest_users, $page_title, $guest_user_to_edit;
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
         <h4 class="mb-0"><?php echo $page_title; ?></h4>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGuestUserModal">
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addGuestUserModal">
             <i class="fas fa-plus me-2"></i>Tambah User Tamu
         </button>
     </div>
@@ -33,8 +33,8 @@ global $guest_users, $page_title, $guest_user_to_edit;
                             <td><?php echo htmlspecialchars($user['no_hp']); ?></td>
                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                             <td>
-                                <a href="manage_guest_users.php?action=edit&id=<?php echo $user['id_user']; ?>" class="btn btn-sm btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="manage_guest_users.php?action=delete&id=<?php echo $user['id_user']; ?>" class="btn btn-sm btn-danger btn-delete" data-name="<?php echo htmlspecialchars($user['nama']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
+                                <a href="manage_guest_users.php?action=edit&id=<?php echo $user['id_user']; ?>" class="btn btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="manage_guest_users.php?action=delete&id=<?php echo $user['id_user']; ?>" class="btn btn-sm btn-delete" data-name="<?php echo htmlspecialchars($user['nama']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
