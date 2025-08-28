@@ -52,65 +52,67 @@ global $reservations, $availableRooms, $page_title, $guests; // Tambahkan $guest
     </div>
 </div>
 
-<div class="modal fade" id="addReservationModal" tabindex="-1" aria-labelledby="addReservationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <form action="reservations.php" method="POST" class="needs-validation" novalidate>
-                <input type="hidden" name="action" value="create">
+<?php
+// admin/views/reservations_view.php
+// ... (kode tabel reservasi yang sudah ada) ...
+?>
+
+<?php if (isset($viewReservation) && $viewReservation): ?>
+    <div class="modal fade" id="detailReservationModal" tabindex="-1" aria-labelledby="detailReservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addReservationModalLabel">Formulir Reservasi Baru</h5>
+                    <h5 class="modal-title" id="detailReservationModalLabel">Detail Reservasi</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="id_tamu" class="form-label">Pilih Tamu</label>
-                        <select class="form-select" id="id_tamu" name="id_tamu" required>
-                            <option value="">-- Pilih Tamu yang Sudah Terdaftar --</option>
-                            <?php foreach ($guests as $guest): ?>
-                                <option value="<?php echo $guest['id_tamu']; ?>"><?php echo htmlspecialchars($guest['nama']) . ' (' . htmlspecialchars($guest['no_identitas']) . ')'; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="form-text">Jika tamu belum terdaftar, silakan tambahkan melalui menu <a href="tamu.php" target="_blank">Data Tamu</a>.</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Data Tamu</h5>
+                            <p><strong>Nama:</strong> <?php echo htmlspecialchars($viewReservation['nama_tamu']); ?></p>
+                            <p><strong>Email:</strong> <?php echo htmlspecialchars($viewReservation['email']); ?></p>
+                            <p><strong>No. HP:</strong> <?php echo htmlspecialchars($viewReservation['no_hp']); ?></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Data Reservasi</h5>
+                            <p><strong>No. Kamar:</strong> <?php echo htmlspecialchars($viewReservation['no_kamar']); ?> (<?php echo htmlspecialchars($viewReservation['tipe_kamar']); ?>)</p>
+                            <p><strong>Check-in:</strong> <?php echo date('d M Y', strtotime($viewReservation['tgl_checkin'])); ?></p>
+                            <p><strong>Check-out:</strong> <?php echo date('d M Y', strtotime($viewReservation['tgl_checkout'])); ?></p>
+                            <p><strong>Total Biaya:</strong> <?php echo formatRupiah($viewReservation['total_biaya']); ?></p>
+                        </div>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="tgl_checkin" class="form-label">Tanggal Check-in</label>
-                            <input type="date" class="form-control" id="tgl_checkin" name="tgl_checkin" value="<?php echo date('Y-m-d'); ?>" required>
+
+                    <form action="reservations.php" method="POST">
+                        <input type="hidden" name="reservation_id" value="<?php echo $viewReservation['id_reservasi']; ?>">
+                        <div class="row align-items-end">
+                            <div class="col-md-8">
+                                <label for="status" class="form-label"><strong>Ubah Status Reservasi</strong></label>
+                                <select name="status" id="status" class="form-select">
+                                    <option value="pending" <?php echo $viewReservation['status'] == 'pending' ? 'selected' : ''; ?>>Pending</option>
+                                    <option value="confirmed" <?php echo $viewReservation['status'] == 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>
+                                    <option value="checkin" <?php echo $viewReservation['status'] == 'checkin' ? 'selected' : ''; ?>>Check-in</option>
+                                    <option value="checkout" <?php echo $viewReservation['status'] == 'checkout' ? 'selected' : ''; ?>>Check-out</option>
+                                    <option value="cancelled" <?php echo $viewReservation['status'] == 'cancelled' ? 'selected' : ''; ?>>Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" name="update_status" class="btn btn-success w-100">Update Status</button>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="tgl_checkout" class="form-label">Tanggal Check-out</label>
-                            <input type="date" class="form-control" id="tgl_checkout" name="tgl_checkout" value="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_kamar" class="form-label">Pilih Kamar yang Tersedia</label>
-                        <select class="form-select" id="id_kamar" name="id_kamar" required>
-                            <option value="">-- Pilih Kamar --</option>
-                            <?php if (!empty($availableRooms)): ?>
-                                <?php foreach ($availableRooms as $room): ?>
-                                    <option value="<?php echo $room['id_kamar']; ?>" data-harga="<?php echo $room['harga']; ?>">
-                                        <?php echo 'Kamar No. ' . htmlspecialchars($room['no_kamar']) . ' (' . htmlspecialchars($room['tipe_kamar']) . ') - ' . formatRupiah($room['harga']); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <option disabled>Tidak ada kamar yang tersedia untuk tanggal yang dipilih.</option>
-                            <?php endif; ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="total_biaya" class="form-label">Total Biaya</label>
-                        <input type="number" class="form-control" id="total_biaya" name="total_biaya" readonly required>
-                    </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan Reservasi</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var detailModal = new bootstrap.Modal(document.getElementById('detailReservationModal'));
+            detailModal.show();
+        });
+    </script>
+<?php endif; ?>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

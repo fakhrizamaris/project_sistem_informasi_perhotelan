@@ -14,7 +14,7 @@ global $rooms, $stats, $page_title;
 
 <div class="content-card">
     <div class="card-body">
-        <div class="table-responsive">
+        <div class="table-responsive p-3">
             <table class="table table-striped table-hover datatable">
                 <thead>
                     <tr>
