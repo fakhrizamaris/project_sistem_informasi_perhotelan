@@ -310,9 +310,6 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 </a>
             </div>
 
-            // admin/includes/header.php
-
-            // ... (kode menu lainnya)
             <div class="menu-item">
                 <a href="tamu.php" class="menu-link <?php echo $current_page == 'tamu' ? 'active' : ''; ?>">
                     <i class="fas fa-users"></i>
