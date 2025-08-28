@@ -109,13 +109,16 @@ global $stats, $recent_reservations;
                                     <tr>
                                         <td><strong><?php echo htmlspecialchars($res['nama_tamu']); ?></strong></td>
                                         <td><?php echo htmlspecialchars($res['no_kamar']); ?></td>
-                                        <td class="text-capitalize"><?php echo htmlspecialchars($res['nama_jenis']); ?></td>
-                                        <td><?php echo formatTanggalIndonesia($res['tgl_checkin'], false); ?></td>
+
+                                        <td class="text-capitalize"><?php echo htmlspecialchars($res['tipe_kamar']); ?></td>
+
+                                        <td><?php echo date('d M Y', strtotime($res['tgl_checkin'])); ?></td>
                                         <td><?php echo getStatusBadge($res['status'], 'reservation'); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
+         
                     </table>
                 </div>
             </div>

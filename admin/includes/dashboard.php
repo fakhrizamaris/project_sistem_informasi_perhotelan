@@ -20,7 +20,7 @@ if (!$stats) {
         'rooms' => ['total_kamar' => 0, 'kamar_kosong' => 0, 'kamar_terisi' => 0, 'kamar_booking' => 0, 'kamar_maintenance' => 0],
         'reservations' => ['total_reservasi_hari_ini' => 0, 'reservasi_pending' => 0, 'reservasi_confirmed' => 0, 'reservasi_checkin' => 0],
         'guests' => ['total_tamu' => 0],
-        'revenue' => ['pendapatan_bulan_ini' => 0],
+        'revenue' => ['pendapatan_bulan_ini' => 0, 'pendapatan_hari_ini' => 0],
         'occupancy_rate' => 0
     ];
 }

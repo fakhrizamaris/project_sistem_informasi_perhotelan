@@ -15,14 +15,15 @@ class Report
      */
     public function getTodaysRevenue()
     {
+        // --- UBAH QUERY DI BAWAH INI ---
         $stmt = $this->db->query("
             SELECT 
-                -- Menghitung total pendapatan dari reservasi yang statusnya 'checkout' hari ini
+                -- Menghitung total pendapatan dari reservasi yang statusnya 'checkout' DAN tanggal checkout-nya adalah hari ini
                 COALESCE(SUM(total_biaya), 0) as total_pendapatan,
-                -- Menghitung jumlah transaksi/reservasi yang selesai
+                -- Menghitung jumlah transaksi/reservasi yang selesai hari ini
                 COUNT(id_reservasi) as jumlah_transaksi
             FROM reservasi 
-            WHERE status = 'checkout' AND DATE(updated_at) = CURDATE()
+            WHERE status = 'checkout' AND DATE(tgl_checkout) = CURDATE()
         ");
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

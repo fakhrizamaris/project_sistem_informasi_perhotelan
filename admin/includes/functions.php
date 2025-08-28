@@ -391,14 +391,15 @@ function getDashboardStats()
 // Get reservasi terbaru
 function getRecentReservations($limit = 5)
 {
-    $db = getDB(); // <--- PERBAIKAN DI SINI
+    $db = getDB();
 
     try {
-        $stmt = $db->prepare("SELECT r.*, t.nama as nama_tamu, k.no_kamar, jk.nama_jenis
+        // PERBAIKI QUERY DI BAWAH INI
+        // Kita hapus join ke tabel 'jenis_kamar' dan ambil 'tipe_kamar' langsung dari tabel 'kamar'
+        $stmt = $db->prepare("SELECT r.*, t.nama as nama_tamu, k.no_kamar, k.tipe_kamar
                              FROM reservasi r
                              JOIN tamu t ON r.id_tamu = t.id_tamu
                              JOIN kamar k ON r.id_kamar = k.id_kamar
-                             JOIN jenis_kamar jk ON k.id_jenis = jk.id_jenis
                              ORDER BY r.created_at DESC
                              LIMIT :limit");
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -406,6 +407,7 @@ function getRecentReservations($limit = 5)
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
+        // Jika ada error, kembalikan array kosong agar halaman tidak rusak
         return [];
     }
 }

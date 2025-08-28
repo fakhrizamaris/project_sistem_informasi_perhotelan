@@ -50,9 +50,9 @@ global $page_title, $todays_revenue, $recent_transactions;
 
 <div class="row">
     <div class="col-12">
-        <div class="content-card">
+        <div class="content-card p-4">
             <div class="card-header">
-                <h5 class="mb-0">10 Transaksi Terakhir (Checkout)</h5>
+                <h5 class="mb-2 mx-1">10 Transaksi Terakhir (Checkout)</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive">

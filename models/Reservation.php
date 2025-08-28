@@ -62,7 +62,7 @@ class Reservation
                 $stmt->execute([$data['id_kamar']]);
 
                 $this->db->commit();
-                return $this->db->lastInsertId();
+                return true;
             }
 
             $this->db->rollback();
