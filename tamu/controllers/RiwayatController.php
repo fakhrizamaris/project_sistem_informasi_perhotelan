@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../models/Tamu.php';
 require_once __DIR__ . '/../../admin/includes/functions.php'; // Kita gunakan functions.php dari admin untuk format tanggal dll
 
 $page_title = 'Riwayat Reservasi';
-$guestModel = new Guest();
+$tamuReservationModel = new TamuReservation();
 
 // Dapatkan id_tamu dari user yang login
 // Perlu query untuk mencari id_tamu berdasarkan $_SESSION['user_id']

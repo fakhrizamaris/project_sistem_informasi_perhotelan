@@ -33,7 +33,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             --success-color: #4caf50;
             --warning-color: #ff9800;
             --danger-color: #f44336;
-            --sidebar-width: 260px;
+            --sidebar-width: 220px;
         }
 
         body {
@@ -48,7 +48,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(180deg, #6e4040ff 0%, #482525ff 100%);
             transition: all 0.3s ease;
             z-index: 1000;
             overflow-y: auto;
@@ -138,7 +138,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
         .navbar-brand {
             font-weight: 600;
-            color: var(--primary-color);
+            color: black;
         }
 
         /* Content Cards */
@@ -151,7 +151,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         }
 
         .card-header-custom {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, #201818ff 0%, #971a1aff 100%);
             color: white;
             padding: 1.25rem 1.5rem;
             border: none;
@@ -228,7 +228,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             background: #f8f9fa;
             border: none;
             font-weight: 600;
-            color: var(--primary-color);
+            color: black;
             padding: 1rem;
         }
 
@@ -239,10 +239,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
         /* Welcome Section */
         .welcome-card {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
+            background: #fff;
+            color: black;
             border-radius: 15px;
             padding: 2rem;
+            box-shadow: inset;
             margin-bottom: 2rem;
         }
 
@@ -347,7 +348,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 
                 <div class="d-flex align-items-center">
                     <div class="dropdown">
-                        <button class="btn btn-link dropdown-toggle text-decoration-none" type="button"
+                        <button class="btn dropdown-toggle text-decoration-none" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user-circle me-2"></i>
                             <span><?php echo $_SESSION['nama']; ?></span>
@@ -362,7 +363,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item text-danger" href="../logout.php"
+                                <a class="dropdown-item text-warning" href="../logout.php"
                                     onclick="return confirm('Yakin ingin logout?')">
                                     <i class="fas fa-sign-out-alt me-2"></i>Logout
                                 </a>

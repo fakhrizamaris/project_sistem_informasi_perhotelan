@@ -6,16 +6,11 @@ global $reservations, $viewReservation, $page_title;
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
         <div>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><?php echo $page_title; ?></li>
-                </ol>
-            </nav>
+
             <h4 class="mb-0"><?php echo $page_title; ?></h4>
             <p class="text-muted">Kelola dan pantau status reservasi Anda</p>
         </div>
-        <a href="booking.php" class="btn btn-primary">
+        <a href="booking.php" class="btn btn-outline-primary">
             <i class="fas fa-plus me-2"></i>Booking Baru
         </a>
     </div>
@@ -28,7 +23,7 @@ global $reservations, $viewReservation, $page_title;
             <div class="card-body p-3">
                 <div class="btn-group" role="group">
                     <input type="radio" class="btn-check" name="status_filter" id="all" value="all" checked>
-                    <label class="btn btn-outline-primary" for="all">Semua</label>
+                    <label class="btn btn-outline-info" for="all">Semua</label>
 
                     <input type="radio" class="btn-check" name="status_filter" id="active" value="active">
                     <label class="btn btn-outline-warning" for="active">Aktif</label>
@@ -52,7 +47,7 @@ global $reservations, $viewReservation, $page_title;
                 <i class="fas fa-calendar-times fa-4x text-muted mb-4"></i>
                 <h5 class="text-muted">Belum Ada Reservasi</h5>
                 <p class="text-muted mb-4">Anda belum memiliki riwayat reservasi. Mulai booking kamar sekarang!</p>
-                <a href="booking.php" class="btn btn-primary btn-lg">
+                <a href="booking.php" class="btn btn-outline-primary btn-md">
                     <i class="fas fa-plus me-2"></i>Buat Reservasi Pertama
                 </a>
             </div>
