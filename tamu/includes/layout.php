@@ -6,7 +6,7 @@ $content_file = "views/{$page_name}_view.php";
 
 // Ganti nama view untuk dashboardtamu.php
 if ($page_name == 'dashboardtamu') {
-    $content_file = "views/dashboard_view.php";
+    $content_file = "views/dashboardtamu_view.php";
 } elseif ($page_name == 'riwayat_reservasi') {
     $content_file = "views/riwayat_view.php";
 }
