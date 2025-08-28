@@ -41,13 +41,13 @@ class Reservation
             $this->db->beginTransaction();
 
             // Generate kode reservasi
-            $kode_reservasi = 'RSV' . date('ymd') . rand(1000, 9999);
+            // $kode_reservasi = 'RSV' . date('ymd') . rand(1000, 9999);
 
-            $sql = "INSERT INTO reservasi (kode_reservasi, id_tamu, id_kamar, tgl_checkin, tgl_checkout, total_biaya, status) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO reservasi (id_tamu, id_kamar, tgl_checkin, tgl_checkout, total_biaya, status) 
+                    VALUES ( ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($sql);
             $result = $stmt->execute([
-                $kode_reservasi,
+                // $kode_reservasi,
                 $data['id_tamu'],
                 $data['id_kamar'],
                 $data['tgl_checkin'],

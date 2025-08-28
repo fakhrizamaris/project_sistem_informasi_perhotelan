@@ -20,6 +20,7 @@ $roomModel = new Room();
 $page_title = 'Kelola Reservasi';
 
 // Logika untuk menangani request POST (update status, tambah reservasi baru)
+// Logika untuk menangani request POST (update status, tambah reservasi baru)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle update status
     if (isset($_POST['update_status'])) {
@@ -30,12 +31,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             setError('Gagal mengupdate status reservasi.');
         }
-    }
-    // Handle reservasi baru
+    } 
+    // Handle reservasi baru dari form modal
     elseif (isset($_POST['action']) && $_POST['action'] === 'create') {
-        // Logika untuk membuat reservasi baru...
-        // (Sama seperti yang sudah ada di reservations.php sebelumnya)
-        setSuccess('Reservasi baru berhasil ditambahkan.');
+        // Kumpulkan data dari formulir
+        $data = [
+            'id_tamu'       => $_POST['id_tamu'],
+            'id_kamar'      => $_POST['id_kamar'],
+            'tgl_checkin'   => $_POST['tgl_checkin'],
+            'tgl_checkout'  => $_POST['tgl_checkout'],
+            'total_biaya'   => $_POST['total_biaya'],
+            'status'        => 'confirmed' // Langsung set 'confirmed' karena dibuat oleh admin
+        ];
+
+        // Panggil method create dari model
+        if ($reservationModel->create($data)) {
+            setSuccess('Reservasi baru berhasil ditambahkan.');
+        } else {
+            setError('Gagal menambahkan reservasi. Pastikan semua data sudah benar.');
+        }
     }
     header('Location: reservations.php');
     exit;

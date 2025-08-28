@@ -18,7 +18,6 @@ global $reservations, $availableRooms, $page_title, $guests; // Tambahkan $guest
             <table class="table table-striped table-hover datatable">
                 <thead class="bg-light">
                     <tr>
-                        <th>Kode</th>
                         <th>Nama Tamu</th>
                         <th>No. Kamar</th>
                         <th>Check-in</th>
@@ -31,7 +30,6 @@ global $reservations, $availableRooms, $page_title, $guests; // Tambahkan $guest
                     <?php if (!empty($reservations)): ?>
                         <?php foreach ($reservations as $res) : ?>
                             <tr>
-                                <td><strong><?php echo htmlspecialchars($res['kode_reservasi']); ?></strong></td>
                                 <td><?php echo htmlspecialchars($res['nama_tamu']); ?></td>
                                 <td><?php echo htmlspecialchars($res['no_kamar']); ?></td>
                                 <td><?php echo date('d M Y', strtotime($res['tgl_checkin'])); ?></td>
@@ -39,7 +37,7 @@ global $reservations, $availableRooms, $page_title, $guests; // Tambahkan $guest
                                 <td><?php echo getStatusBadge($res['status'], 'reservation'); ?></td>
                                 <td>
                                     <a href="?view=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-info" title="Lihat Detail"><i class="fas fa-eye"></i></a>
-                                    <a href="reservations.php?action=delete&id=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-danger btn-delete" data-name="<?php echo 'reservasi ' . htmlspecialchars($res['kode_reservasi']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
+                                    <a href="reservations.php?action=delete&id=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-danger btn-delete" data-name="<?php echo 'reservasi ' . htmlspecialchars($res['nama_tamu']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
