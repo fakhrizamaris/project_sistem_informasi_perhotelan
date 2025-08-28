@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #fff;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .login-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, #817211ff 0%, #d9c409ff 100%);
             color: white;
             text-align: center;
             padding: 2rem 1rem;
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .btn-login {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            background: linear-gradient(135deg, #752828ff 0%, #d5c853ff 100%);
             border: none;
             border-radius: 10px;
             padding: 12px;
@@ -104,10 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="login-card">
+            <div class="col-md-12 col-lg-5">
+                <div class="login-card mt-2">
                     <div class="login-header">
-                        <i class="fas fa-hotel fa-3x mb-3"></i>
+
                         <h3 class="mb-0">Hotel System</h3>
                         <p class="mb-0 opacity-75">Masuk ke Akun Anda</p>
                     </div>
@@ -151,22 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </div>
 
-                <!-- Demo Credentials -->
-                <div class="card mt-4 bg-light">
-                    <div class="card-body">
-                        <h6 class="card-title">Demo Login</h6>
-                        <div class="row">
-                            <div class="col-6">
-                                <small class="text-muted">Admin:</small><br>
-                                <small><strong>admin / admin123</strong></small>
-                            </div>
-                            <div class="col-6">
-                                <small class="text-muted">Tamu:</small><br>
-                                <small><strong>Buat akun melalui admin</strong></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

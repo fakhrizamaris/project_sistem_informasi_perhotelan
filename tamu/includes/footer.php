@@ -1,4 +1,4 @@
-<footer class="py-3 mt-auto">
+<footer class="py-2 mt-auto">
     <div class="container-fluid text-center">
         <small class="text-muted">
             &copy; <?php echo date('Y'); ?> Hotel System - Portal Tamu. Dibuat untuk Projek Kelompok Sistem Informasi.
