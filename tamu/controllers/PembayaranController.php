@@ -2,7 +2,7 @@
 // tamu/controllers/PembayaranController.php
 
 require_once __DIR__ . '/../../config/koneksi.php';
-require_once __DIR__ . '/../../models/Tamu.php';
+require_once __DIR__ . '/../../models/TamuReservation.php';
 require_once __DIR__ . '/../../models/Pembayaran.php';
 require_once __DIR__ . '/../includes/functions.php';
 

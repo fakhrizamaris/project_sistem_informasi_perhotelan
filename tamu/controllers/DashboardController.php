@@ -1,8 +1,9 @@
 <?php
-// tamu/controllers/dashboard_controller.php
+// tamu/controllers/DashboardController.php
 
 require_once __DIR__ . '/../../config/koneksi.php';
-require_once __DIR__ . '/../../models/Tamu.php';
+// Memuat file model yang BARU saja dibuat
+require_once __DIR__ . '/../../models/TamuReservation.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 // Konfigurasi Halaman

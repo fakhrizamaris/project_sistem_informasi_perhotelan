@@ -2,7 +2,7 @@
 // tamu/controllers/riwayat_controller.php
 
 require_once __DIR__ . '/../../config/koneksi.php';
-require_once __DIR__ . '/../../models/Tamu.php';
+require_once __DIR__ . '/../../models/TamuReservation.php';
 require_once __DIR__ . '/../../admin/includes/functions.php'; // Kita gunakan functions.php dari admin untuk format tanggal dll
 
 $page_title = 'Riwayat Reservasi';
