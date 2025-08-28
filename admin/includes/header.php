@@ -302,11 +302,17 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     <span class="menu-text">Kelola Kamar</span>
                 </a>
             </div>
-
             <div class="menu-item">
                 <a href="reservations.php" class="menu-link <?php echo $current_page == 'reservations' ? 'active' : ''; ?>">
                     <i class="fas fa-calendar-check"></i>
                     <span class="menu-text">Reservasi</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="pembayaran.php" class="menu-link <?php echo $current_page == 'pembayaran' ? 'active' : ''; ?>">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span class="menu-text">Verifikasi Pembayaran</span>
                 </a>
             </div>
 

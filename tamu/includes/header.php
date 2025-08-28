@@ -363,7 +363,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item text-warning" href="../logout.php"
+                                <a class="dropdown-item text-danger" href="../logout.php"
                                     onclick="return confirm('Yakin ingin logout?')">
                                     <i class="fas fa-sign-out-alt me-2"></i>Logout
                                 </a>

@@ -95,11 +95,19 @@ global $reservations, $viewReservation, $page_title;
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#detailModal" data-reservation='<?php echo json_encode($res); ?>' title="Detail">
+                                        <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal" data-reservation='<?php echo json_encode($res); ?>' title="Detail">
                                             <i class="fas fa-eye"></i>
-                                        </button>
+                                        </button>   
 
-                                        <?php if ($res['status'] == 'pending' && bisaBatalkanReservasi($res['status'], $res['tgl_checkin'])): ?>
+                                        <?php if ($res['status'] == 'pending') : ?>
+                                            <a href="pembayaran.php?id=<?php echo $res['id_reservasi']; ?>"
+                                                class="btn btn-sm"
+                                                title="Bayar Sekarang">
+                                                <i class="fas fa-money-check-alt"></i>
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if ($res['status'] == 'pending' && bisaBatalkanReservasi($res['status'], $res['tgl_checkin'])) : ?>
                                             <a href="reservasi.php?action=cancel&id=<?php echo $res['id_reservasi']; ?>"
                                                 class="btn btn-sm btn-danger btn-cancel"
                                                 data-name="reservasi <?php echo $booking_ref; ?>"
