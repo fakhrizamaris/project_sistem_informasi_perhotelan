@@ -6,7 +6,7 @@ global $guest_users, $page_title;
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
         <h4 class="mb-0"><?php echo $page_title; ?></h4>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGuestUserModal">
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addGuestUserModal">
             <i class="fas fa-plus me-2"></i>Tambah User Tamu
         </button>
     </div>
@@ -29,7 +29,7 @@ global $guest_users, $page_title;
                             <td><?php echo htmlspecialchars($user['nama']); ?></td>
                             <td><?php echo htmlspecialchars($user['username']); ?></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="<?php echo htmlspecialchars($user['nama']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
+                                <a href="#" class="btn btn-sm btn-delete" data-name="<?php echo htmlspecialchars($user['nama']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

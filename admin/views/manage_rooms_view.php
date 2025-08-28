@@ -33,8 +33,8 @@ global $rooms, $stats, $page_title;
                             <td><?php echo formatRupiah($room['harga']); ?></td>
                             <td><?php echo getStatusBadge($room['status'], 'room'); ?></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="manage_rooms.php?action=delete&id=<?php echo $room['id_kamar']; ?>" class="btn btn-sm btn-danger btn-delete" data-name="Kamar No. <?php echo htmlspecialchars($room['no_kamar']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
+                                <a href="#" class="btn btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="manage_rooms.php?action=delete&id=<?php echo $room['id_kamar']; ?>" class="btn btn-sm btn-delete" data-name="Kamar No. <?php echo htmlspecialchars($room['no_kamar']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

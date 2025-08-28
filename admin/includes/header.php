@@ -289,71 +289,67 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         </div>
 
         <div class="sidebar-menu">
-            <div class="menu-item">
-                <a href="dashboard.php" class="menu-link <?php echo $current_page == 'dashboard' ? 'active' : ''; ?>">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span class="menu-text">Dashboard</span>
-                </a>
-            </div>
+    <div class="menu-item">
+        <a href="dashboard.php" class="menu-link <?php echo $current_page == 'dashboard' ? 'active' : ''; ?>">
+            <i class="fas fa-tachometer-alt"></i>
+            <span class="menu-text">Dashboard</span>
+        </a>
+    </div>
 
-            <div class="menu-item">
-                <a href="manage_rooms.php" class="menu-link <?php echo $current_page == 'manage_rooms' ? 'active' : ''; ?>">
-                    <i class="fas fa-bed"></i>
-                    <span class="menu-text">Kelola Kamar</span>
-                </a>
-            </div>
-            <div class="menu-item">
-                <a href="reservations.php" class="menu-link <?php echo $current_page == 'reservations' ? 'active' : ''; ?>">
-                    <i class="fas fa-calendar-check"></i>
-                    <span class="menu-text">Reservasi</span>
-                </a>
-            </div>
+    <div class="menu-item">
+        <a href="reservations.php" class="menu-link <?php echo $current_page == 'reservations' ? 'active' : ''; ?>">
+            <i class="fas fa-calendar-check"></i>
+            <span class="menu-text">Reservasi</span>
+        </a>
+    </div>
 
-            <div class="menu-item">
-                <a href="pembayaran.php" class="menu-link <?php echo $current_page == 'pembayaran' ? 'active' : ''; ?>">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <span class="menu-text">Verifikasi Pembayaran</span>
-                </a>
-            </div>
+    <div class="menu-item">
+        <a href="tamu.php" class="menu-link <?php echo $current_page == 'tamu' ? 'active' : ''; ?>">
+            <i class="fas fa-users"></i>
+            <span class="menu-text">Data Tamu</span>
+        </a>
+    </div>
 
-            <div class="menu-item">
-                <a href="tamu.php" class="menu-link <?php echo $current_page == 'tamu' ? 'active' : ''; ?>">
-                    <i class="fas fa-users"></i>
-                    <span class="menu-text">Data Tamu</span>
-                </a>
-            </div>
-
-            <div class="menu-item">
-                <a href="manage_guest_users.php" class="menu-link <?php echo $current_page == 'manage_guest_users' ? 'active' : ''; ?>">
-                    <i class="fas fa-user-check"></i>
-                    <span class="menu-text">User Tamu</span>
-                </a>
-            </div>
-
-
-            <div class="menu-item">
-                <a href="manage_staff.php" class="menu-link <?php echo $current_page == 'manage_staff' ? 'active' : ''; ?>">
-                    <i class="fas fa-user-tie"></i>
-                    <span class="menu-text">Kelola Staff</span>
-                </a>
-            </div>
-
-            <div class="menu-item">
-                <a href="reports.php" class="menu-link <?php echo $current_page == 'reports' ? 'active' : ''; ?>">
-                    <i class="fas fa-chart-bar"></i>
-                    <span class="menu-text">Laporan</span>
-                </a>
-            </div>
-
-            <hr class="my-3" style="border-color: rgba(255, 255, 255, 0.2);">
-
-            <div class="menu-item">
-                <a href="../logout.php" class="menu-link text-warning" onclick="return confirm('Yakin ingin logout?')">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span class="menu-text">Logout</span>
-                </a>
-            </div>
+    <?php // Menu khusus untuk Admin ?>
+    <?php if ($_SESSION['role'] === 'admin'): ?>
+        <div class="menu-item">
+            <a href="manage_rooms.php" class="menu-link <?php echo $current_page == 'manage_rooms' ? 'active' : ''; ?>">
+                <i class="fas fa-bed"></i>
+                <span class="menu-text">Kelola Kamar</span>
+            </a>
         </div>
+
+        <div class="menu-item">
+            <a href="manage_guest_users.php" class="menu-link <?php echo $current_page == 'manage_guest_users' ? 'active' : ''; ?>">
+                <i class="fas fa-user-check"></i>
+                <span class="menu-text">User Tamu</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a href="manage_staff.php" class="menu-link <?php echo $current_page == 'manage_staff' ? 'active' : ''; ?>">
+                <i class="fas fa-user-tie"></i>
+                <span class="menu-text">Kelola Staff</span>
+            </a>
+        </div>
+
+        <div class="menu-item">
+            <a href="reports.php" class="menu-link <?php echo $current_page == 'reports' ? 'active' : ''; ?>">
+                <i class="fas fa-chart-bar"></i>
+                <span class="menu-text">Laporan</span>
+            </a>
+        </div>
+    <?php endif; ?>
+
+    <hr class="my-3" style="border-color: rgba(255, 255, 255, 0.2);">
+
+    <div class="menu-item">
+        <a href="../logout.php" class="menu-link text-warning" onclick="return confirm('Yakin ingin logout?')">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="menu-text">Logout</span>
+        </a>
+    </div>
+</div>
     </nav>
 
     <!-- Main Content -->

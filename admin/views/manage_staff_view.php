@@ -14,7 +14,7 @@ global $staff_list, $page_title;
 
 <div class="content-card">
     <div class="card-body">
-        <div class="table-responsive">
+        <div class="table-responsive p-3">
             <table class="table table-striped table-hover datatable">
                 <thead>
                     <tr>
@@ -31,8 +31,8 @@ global $staff_list, $page_title;
                             <td><?php echo htmlspecialchars($staff['username']); ?></td>
                             <td class="text-capitalize"><?php echo htmlspecialchars($staff['role']); ?></td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="#" class="btn btn-sm btn-danger btn-delete" data-name="<?php echo htmlspecialchars($staff['nama']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
+                                <a href="#" class="btn btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="#" class="btn btn-sm btn-delete" data-name="<?php echo htmlspecialchars($staff['nama']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
