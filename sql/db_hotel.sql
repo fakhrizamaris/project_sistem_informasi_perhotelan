@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 25, 2025 at 02:33 PM
+-- Generation Time: Aug 28, 2025 at 02:31 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -37,6 +37,15 @@ CREATE TABLE `kamar` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `kamar`
+--
+
+INSERT INTO `kamar` (`id_kamar`, `tipe_kamar`, `no_kamar`, `harga`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'suite', 1, '3000000', 'kosong', '2025-08-28 01:18:16', '2025-08-28 01:18:16'),
+(2, 'standar', 2, '1000000', 'kosong', '2025-08-28 01:18:38', '2025-08-28 01:18:38'),
+(3, 'deluxe', 3, '2000000', 'kosong', '2025-08-28 01:18:52', '2025-08-28 01:18:52');
+
 -- --------------------------------------------------------
 
 --
@@ -48,8 +57,6 @@ CREATE TABLE `pegawai` (
   `id_user` int DEFAULT NULL,
   `nama` varchar(100) NOT NULL,
   `jabatan` varchar(50) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
   `status` enum('aktif','non_aktif') DEFAULT 'aktif',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -88,6 +95,15 @@ CREATE TABLE `reservasi` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `reservasi`
+--
+
+INSERT INTO `reservasi` (`id_reservasi`, `id_tamu`, `id_kamar`, `tgl_checkin`, `tgl_checkout`, `total_biaya`, `status`, `created_at`, `updated_at`) VALUES
+(3, 1, 2, '2025-08-28', '2025-08-29', 1000000.00, 'checkout', '2025-08-28 01:43:36', '2025-08-28 02:07:08'),
+(4, 1, 3, '2025-08-28', '2025-08-30', 4000000.00, 'checkout', '2025-08-28 01:47:07', '2025-08-28 02:06:16'),
+(5, 1, 1, '2025-08-27', '2025-08-28', 3000000.00, 'checkout', '2025-08-28 01:57:14', '2025-08-28 02:05:47');
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +121,13 @@ CREATE TABLE `tamu` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `tamu`
+--
+
+INSERT INTO `tamu` (`id_tamu`, `id_user`, `nama`, `no_identitas`, `alamat`, `no_hp`, `email`, `created_at`) VALUES
+(1, NULL, 'asdasd', '123123123123', 'asdasd1312', '14123123123', 'djamaris@gmail.com', '2025-08-27 15:09:24');
+
 -- --------------------------------------------------------
 
 --
@@ -120,6 +143,16 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id_user`, `username`, `password`, `nama`, `role`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin123', 'admin1', 'admin', '2025-08-27 01:49:57', '2025-08-27 01:49:57'),
+(3, 'admin2', '$2y$10$YVNfUSNKLhm0RDMBAFntHuLH6se3bWskL.GmvQ4ZqGN2fMArA/q2O', 'admin2', 'admin', '2025-08-27 01:54:43', '2025-08-27 01:54:43'),
+(4, 'manajer', '$2y$10$83W2aYma5hLXW5RnVhv5m.9dbBPrXyVxcEdSd4W1Qfv18YVUjIJIS', 'Manajer', 'manajer', '2025-08-27 01:56:59', '2025-08-27 01:56:59'),
+(5, 'resepsionis', '$2y$10$kNGzv.g1X86pzID/zmzrfOMLyVaYbg/QmzYbM3NWKCeYVonMLzDbi', 'Fakhri Djamaris', 'resepsionis', '2025-08-27 15:25:14', '2025-08-27 15:25:14');
 
 --
 -- Indexes for dumped tables
@@ -176,7 +209,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `kamar`
 --
 ALTER TABLE `kamar`
-  MODIFY `id_kamar` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kamar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pegawai`
@@ -194,19 +227,19 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `reservasi`
 --
 ALTER TABLE `reservasi`
-  MODIFY `id_reservasi` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_reservasi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tamu`
 --
 ALTER TABLE `tamu`
-  MODIFY `id_tamu` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tamu` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
