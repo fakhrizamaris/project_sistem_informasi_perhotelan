@@ -1,83 +1,69 @@
 <?php
 // admin/controllers/RoomController.php
 
-// 1. PERBAIKI PATH & NAMA FILE KONEKSI
-require_once '../config/koneksi.php';
-require_once '../includes/auth.php';
-require_once '../models/Room.php';
-require_once 'includes/functions.php';
+require_once __DIR__ . '/../../config/koneksi.php';
+require_once __DIR__ . '/../../models/Room.php';
+require_once __DIR__ . '/../includes/functions.php';
 
-class RoomController
-{
-    private $roomModel;
+$page_title = 'Kelola Kamar';
+$roomModel = new Room();
 
-    public function __construct()
-    {
-        // Auth::requireRole('admin'); // Aktifkan jika sudah implementasi login penuh
-        $this->roomModel = new Room();
-    }
-
-    public function index()
-    {
-        // Ambil data untuk ditampilkan di view
-        global $rooms, $stats, $page_title; // Jadikan variabel global agar bisa diakses di view
-
-        $page_title = 'Kelola Kamar';
-        $rooms = $this->roomModel->getAll();
-        $stats = $this->roomModel->getStats();
-
-        // Panggil layout utama yang akan memuat view
-        require_once 'includes/layout.php';
-    }
-
-    public function create()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'no_kamar' => $_POST['no_kamar'],
-                'tipe_kamar' => $_POST['tipe_kamar'],
-                'harga' => $_POST['harga'],
-                'status' => $_POST['status'] ?? 'kosong'
-            ];
-
-            if ($this->roomModel->create($data)) {
-                setSuccess('Kamar berhasil ditambahkan.');
-            } else {
-                setError('Gagal menambahkan kamar.');
-            }
-            header('Location: manage_rooms.php');
-            exit;
-        }
-    }
-
-    public function delete($id)
-    {
-        if ($this->roomModel->delete($id)) {
-            setSuccess('Kamar berhasil dihapus.');
-        } else {
-            setError('Gagal menghapus kamar. Mungkin kamar sedang digunakan.');
-        }
-        header('Location: manage_rooms.php');
-        exit;
-    }
-
-    // Fungsi edit bisa ditambahkan di sini...
-}
+// Variabel untuk menampung data kamar yang akan diedit
+$room_to_edit = null;
 
 // ROUTING SEDERHANA
 $action = $_GET['action'] ?? 'index';
 $id = $_GET['id'] ?? null;
 
-$controller = new RoomController();
+// Logika untuk menangani request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($action === 'create') {
+        $data = [
+            'no_kamar' => $_POST['no_kamar'],
+            'tipe_kamar' => $_POST['tipe_kamar'],
+            'harga' => $_POST['harga'],
+            'status' => 'kosong' // Status default saat dibuat
+        ];
 
-switch ($action) {
-    case 'create':
-        $controller->create();
-        break;
-    case 'delete':
-        $controller->delete($id);
-        break;
-    default:
-        $controller->index();
-        break;
+        if ($roomModel->create($data)) {
+            setSuccess('Kamar baru berhasil ditambahkan.');
+        } else {
+            setError('Gagal menambahkan kamar. Nomor kamar mungkin sudah ada.');
+        }
+        header('Location: manage_rooms.php');
+        exit;
+    } elseif ($action === 'update' && $id) {
+        $data = [
+            'no_kamar' => $_POST['no_kamar'],
+            'tipe_kamar' => $_POST['tipe_kamar'],
+            'harga' => $_POST['harga'],
+            'status' => $_POST['status']
+        ];
+        if ($roomModel->update($id, $data)) {
+            setSuccess('Data kamar berhasil diperbarui.');
+        } else {
+            setError('Gagal memperbarui data kamar.');
+        }
+        header('Location: manage_rooms.php');
+        exit;
+    }
+} else { // Metode GET
+    if ($action === 'delete' && $id) {
+        if ($roomModel->delete($id)) {
+            setSuccess('Kamar berhasil dihapus.');
+        } else {
+            setError('Gagal menghapus kamar. Kamar mungkin sedang digunakan dalam reservasi.');
+        }
+        header('Location: manage_rooms.php');
+        exit;
+    } elseif ($action === 'edit' && $id) {
+        $room_to_edit = $roomModel->getById($id);
+    }
 }
+
+// Ambil semua data untuk ditampilkan di tabel
+$rooms = $roomModel->getAll();
+$stats = $roomModel->getStats();
+
+// Panggil layout utama
+require_once __DIR__ . '/../includes/layout.php';

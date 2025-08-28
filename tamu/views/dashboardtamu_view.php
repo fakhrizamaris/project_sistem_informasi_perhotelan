@@ -66,7 +66,7 @@ global $stats, $recent_reservations, $active_reservations;
                                         <td><?php echo formatTanggalIndonesia($res['tgl_checkin'], false); ?></td>
                                         <td><?php echo getStatusBadge($res['status']); ?></td>
                                         <td>
-                                            <a href="reservasi.php?view=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-info" title="Lihat Detail">
+                                            <a href="reservasi.php?view=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm" title="Lihat Detail">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </td>

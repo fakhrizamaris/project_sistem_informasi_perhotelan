@@ -1,26 +1,19 @@
 <?php
 // admin/controllers/ReservationController.php
 
-// PERBAIKAN: Path diubah dari ../ menjadi ../../ dan nama file Guest.php diubah menjadi Tamu.php
 require_once __DIR__ . '/../../config/koneksi.php';
 require_once __DIR__ . '/../../models/Reservation.php';
-require_once __DIR__ . '/../../models/Tamu.php'; // Sebelumnya: ../models/Guest.php
+require_once __DIR__ . '/../../models/Tamu.php';
 require_once __DIR__ . '/../../models/Room.php';
-require_once __DIR__ . '/../includes/functions.php'; // PERBAIKAN: Path disesuaikan
-
-// Cek otentikasi (jika diperlukan, aktifkan nanti)
-// session_start();
-// require_once '../includes/auth.php';
-// Auth::requireRole('admin');
+require_once __DIR__ . '/../includes/functions.php';
 
 // Inisialisasi Model
 $reservationModel = new Reservation();
-$guestModel = new Guest(); // Nama class-nya tetap Guest, sesuai isi file Tamu.php
+$guestModel = new Guest();
 $roomModel = new Room();
 $page_title = 'Kelola Reservasi';
 
-// Logika untuk menangani request POST (update status, tambah reservasi baru)
-// Logika untuk menangani request POST (update status, tambah reservasi baru)
+// Logika untuk menangani request POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle update status
     if (isset($_POST['update_status'])) {
@@ -31,10 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             setError('Gagal mengupdate status reservasi.');
         }
-    } 
+        header('Location: reservations.php');
+        exit;
+    }
     // Handle reservasi baru dari form modal
     elseif (isset($_POST['action']) && $_POST['action'] === 'create') {
-        // Kumpulkan data dari formulir
         $data = [
             'id_tamu'       => $_POST['id_tamu'],
             'id_kamar'      => $_POST['id_kamar'],
@@ -44,15 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'status'        => 'confirmed' // Langsung set 'confirmed' karena dibuat oleh admin
         ];
 
-        // Panggil method create dari model
         if ($reservationModel->create($data)) {
             setSuccess('Reservasi baru berhasil ditambahkan.');
         } else {
             setError('Gagal menambahkan reservasi. Pastikan semua data sudah benar.');
         }
+        header('Location: reservations.php');
+        exit;
     }
-    header('Location: reservations.php');
-    exit;
 }
 
 // Logika untuk menangani request GET (hapus)
@@ -70,7 +63,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
 // Mengambil semua data yang diperlukan untuk view
 $reservations = $reservationModel->getAll();
 $availableRooms = $roomModel->getAvailable(date('Y-m-d'), date('Y-m-d', strtotime('+1 day')));
-$guests = $guestModel->getAll();
+$guests = $guestModel->getAll(); // Memastikan data tamu diambil
 
 // Data reservasi untuk modal detail
 $viewReservation = null;
@@ -78,5 +71,5 @@ if (isset($_GET['view'])) {
     $viewReservation = $reservationModel->getById($_GET['view']);
 }
 
-// Memanggil file layout yang akan merangkai header, view, dan footer
-require_once __DIR__ . '/../includes/layout.php'; // PERBAIKAN: Path disesuaikan
+// Memanggil file layout
+require_once __DIR__ . '/../includes/layout.php';

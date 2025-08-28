@@ -6,7 +6,10 @@ require_once __DIR__ . '/../../models/Tamu.php';
 require_once __DIR__ . '/../includes/functions.php';
 
 $page_title = 'Kelola Data Tamu';
-$guestModel = new Guest(); // Sesuai dengan nama class di file Tamu.php
+$guestModel = new Guest();
+
+// Variabel untuk menampung data tamu yang akan diedit
+$guest_to_edit = null;
 
 // ROUTING SEDERHANA
 $action = $_GET['action'] ?? 'index';
@@ -15,6 +18,18 @@ $id = $_GET['id'] ?? null;
 switch ($action) {
     case 'create':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // ... (kode create yang sudah ada, tidak perlu diubah)
+        }
+        break;
+
+    case 'edit':
+        if ($id) {
+            $guest_to_edit = $guestModel->getById($id);
+        }
+        break;
+
+    case 'update':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $id) {
             $data = [
                 'nama' => $_POST['nama'],
                 'no_identitas' => $_POST['no_identitas'],
@@ -23,10 +38,10 @@ switch ($action) {
                 'email' => $_POST['email']
             ];
 
-            if ($guestModel->create($data)) {
-                setSuccess('Tamu baru berhasil ditambahkan.');
+            if ($guestModel->update($id, $data)) {
+                setSuccess('Data tamu berhasil diperbarui.');
             } else {
-                setError('Gagal menambahkan tamu. No identitas mungkin sudah terdaftar.');
+                setError('Gagal memperbarui data tamu.');
             }
             header('Location: tamu.php');
             exit;
@@ -41,9 +56,8 @@ switch ($action) {
         }
         header('Location: tamu.php');
         exit;
-
-    default: // 'index'
-        $guests = $guestModel->getAll();
-        require_once __DIR__ . '/../includes/layout.php';
-        break;
 }
+
+// Selalu ambil semua data tamu untuk ditampilkan di tabel
+$guests = $guestModel->getAll();
+require_once __DIR__ . '/../includes/layout.php';

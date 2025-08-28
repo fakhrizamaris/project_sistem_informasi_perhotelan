@@ -1,6 +1,5 @@
 <?php
 // models/Room.php
-// Model untuk mengelola data kamar
 
 class Room
 {
@@ -49,17 +48,43 @@ class Room
         ]);
     }
 
+    public function getStats()
+    {
+        $stmt = $this->db->query("
+            SELECT 
+                COUNT(*) as total,
+                SUM(CASE WHEN status = 'kosong' THEN 1 ELSE 0 END) as kosong,
+                SUM(CASE WHEN status = 'terisi' THEN 1 ELSE 0 END) as terisi,
+                SUM(CASE WHEN status = 'dibooking' THEN 1 ELSE 0 END) as dibooking,
+                SUM(CASE WHEN status = 'maintenance' THEN 1 ELSE 0 END) as maintenance
+            FROM kamar
+        ");
+        return $stmt->fetch();
+    }
+
     public function delete($id)
     {
-        // Cek apakah kamar sedang digunakan
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM reservasi WHERE id_kamar = ? AND status NOT IN ('cancelled', 'checkout')");
+        // PERBAIKAN: Cek hanya reservasi yang AKTIF
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM reservasi WHERE id_kamar = ? AND status NOT IN ('checkout', 'cancelled')");
         $stmt->execute([$id]);
         if ($stmt->fetchColumn() > 0) {
-            return false; // Tidak bisa dihapus karena sedang digunakan
+            // Jika ada reservasi aktif (pending, confirmed, checkin), maka GAGAL HAPUS
+            return false;
         }
 
-        $stmt = $this->db->prepare("DELETE FROM kamar WHERE id_kamar = ?");
-        return $stmt->execute([$id]);
+        // Jika tidak ada reservasi aktif, baru coba hapus.
+        try {
+            // Untuk mengatasi masalah foreign key, kita hapus dulu riwayat reservasi yang sudah selesai
+            $stmt = $this->db->prepare("DELETE FROM reservasi WHERE id_kamar = ?");
+            $stmt->execute([$id]);
+
+            // Setelah riwayat reservasi dihapus, baru hapus kamarnya
+            $stmt = $this->db->prepare("DELETE FROM kamar WHERE id_kamar = ?");
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            // Tangkap error jika ada masalah lain
+            return false;
+        }
     }
 
     public function getAvailable($checkin, $checkout)
@@ -73,19 +98,5 @@ class Room
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$checkout, $checkin]);
         return $stmt->fetchAll();
-    }
-
-    public function getStats()
-    {
-        $stmt = $this->db->query("
-            SELECT 
-                COUNT(*) as total,
-                SUM(CASE WHEN status = 'kosong' THEN 1 ELSE 0 END) as kosong,
-                SUM(CASE WHEN status = 'terisi' THEN 1 ELSE 0 END) as terisi,
-                SUM(CASE WHEN status = 'dibooking' THEN 1 ELSE 0 END) as dibooking,
-                SUM(CASE WHEN status = 'maintenance' THEN 1 ELSE 0 END) as maintenance
-            FROM kamar
-        ");
-        return $stmt->fetch();
     }
 }

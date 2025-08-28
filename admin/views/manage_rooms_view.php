@@ -1,12 +1,12 @@
 <?php
 // admin/views/manage_rooms_view.php
-global $rooms, $stats, $page_title;
+global $rooms, $stats, $page_title, $room_to_edit;
 ?>
 
 <div class="row mb-4">
     <div class="col-12 d-flex justify-content-between align-items-center">
         <h4 class="mb-0"><?php echo $page_title; ?></h4>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoomModal">
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addRoomModal">
             <i class="fas fa-plus me-2"></i>Tambah Kamar
         </button>
     </div>
@@ -33,8 +33,8 @@ global $rooms, $stats, $page_title;
                             <td><?php echo formatRupiah($room['harga']); ?></td>
                             <td><?php echo getStatusBadge($room['status'], 'room'); ?></td>
                             <td>
-                                <a href="#" class="btn btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="manage_rooms.php?action=delete&id=<?php echo $room['id_kamar']; ?>" class="btn btn-sm btn-delete" data-name="Kamar No. <?php echo htmlspecialchars($room['no_kamar']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
+                                <a href="manage_rooms.php?action=edit&id=<?php echo $room['id_kamar']; ?>" class="btn btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="manage_rooms.php?action=delete&id=<?php echo $room['id_kamar']; ?>" class="btn btn-sm  btn-delete" data-name="Kamar No. <?php echo htmlspecialchars($room['no_kamar']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -78,3 +78,55 @@ global $rooms, $stats, $page_title;
         </div>
     </div>
 </div>
+
+<?php if ($room_to_edit): ?>
+    <div class="modal fade" id="editRoomModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="manage_rooms.php?action=update&id=<?php echo $room_to_edit['id_kamar']; ?>" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Data Kamar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nomor Kamar</label>
+                            <input type="number" class="form-control" name="no_kamar" value="<?php echo htmlspecialchars($room_to_edit['no_kamar']); ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipe Kamar</label>
+                            <select name="tipe_kamar" class="form-select" required>
+                                <option value="standar" <?php echo $room_to_edit['tipe_kamar'] == 'standar' ? 'selected' : ''; ?>>Standar</option>
+                                <option value="deluxe" <?php echo $room_to_edit['tipe_kamar'] == 'deluxe' ? 'selected' : ''; ?>>Deluxe</option>
+                                <option value="suite" <?php echo $room_to_edit['tipe_kamar'] == 'suite' ? 'selected' : ''; ?>>Suite</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Harga per Malam</label>
+                            <input type="number" class="form-control" name="harga" value="<?php echo htmlspecialchars($room_to_edit['harga']); ?>" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Kamar</label>
+                            <select name="status" class="form-select" required>
+                                <option value="kosong" <?php echo $room_to_edit['status'] == 'kosong' ? 'selected' : ''; ?>>Kosong</option>
+                                <option value="terisi" <?php echo $room_to_edit['status'] == 'terisi' ? 'selected' : ''; ?>>Terisi</option>
+                                <option value="dibooking" <?php echo $room_to_edit['status'] == 'dibooking' ? 'selected' : ''; ?>>Dibooking</option>
+                                <option value="maintenance" <?php echo $room_to_edit['status'] == 'maintenance' ? 'selected' : ''; ?>>Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var editModal = new bootstrap.Modal(document.getElementById('editRoomModal'));
+            editModal.show();
+        });
+    </script>
+<?php endif; ?>
