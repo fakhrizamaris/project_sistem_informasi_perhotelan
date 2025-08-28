@@ -56,6 +56,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete') {
 // Mengambil semua data yang diperlukan untuk view
 $reservations = $reservationModel->getAll();
 $availableRooms = $roomModel->getAvailable(date('Y-m-d'), date('Y-m-d', strtotime('+1 day')));
+$guests = $guestModel->getAll();
 
 // Data reservasi untuk modal detail
 $viewReservation = null;

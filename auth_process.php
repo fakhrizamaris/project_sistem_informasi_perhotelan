@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // --- PERUBAHAN UTAMA ADA DI SINI ---
         // Memverifikasi apakah user ditemukan DAN password yang diinput sesuai dengan hash di database
+        // ... (sekitar baris 30)
         if ($user && password_verify($password, $user['password'])) {
             // Jika verifikasi berhasil, simpan informasi user ke dalam session
 
@@ -37,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['username'] = $user['username'];
             $_SESSION['nama'] = $user['nama']; // Menyimpan nama untuk ditampilkan di dashboard
             $_SESSION['role'] = $user['role'];
+            $_SESSION['logged_in'] = true; // <-- TAMBAHKAN BARIS INI
 
             // Arahkan user ke dashboard admin
             header("Location: admin/dashboard.php");

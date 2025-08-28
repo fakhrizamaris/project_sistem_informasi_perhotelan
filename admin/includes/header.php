@@ -304,13 +304,6 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </div>
 
             <div class="menu-item">
-                <a href="room_types.php" class="menu-link <?php echo $current_page == 'room_types' ? 'active' : ''; ?>">
-                    <i class="fas fa-list"></i>
-                    <span class="menu-text">Jenis Kamar</span>
-                </a>
-            </div>
-
-            <div class="menu-item">
                 <a href="reservations.php" class="menu-link <?php echo $current_page == 'reservations' ? 'active' : ''; ?>">
                     <i class="fas fa-calendar-check"></i>
                     <span class="menu-text">Reservasi</span>
@@ -332,23 +325,9 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </div>
 
             <div class="menu-item">
-                <a href="services.php" class="menu-link <?php echo $current_page == 'services' ? 'active' : ''; ?>">
-                    <i class="fas fa-concierge-bell"></i>
-                    <span class="menu-text">Layanan</span>
-                </a>
-            </div>
-
-            <div class="menu-item">
                 <a href="reports.php" class="menu-link <?php echo $current_page == 'reports' ? 'active' : ''; ?>">
                     <i class="fas fa-chart-bar"></i>
                     <span class="menu-text">Laporan</span>
-                </a>
-            </div>
-
-            <div class="menu-item">
-                <a href="settings.php" class="menu-link <?php echo $current_page == 'settings' ? 'active' : ''; ?>">
-                    <i class="fas fa-cog"></i>
-                    <span class="menu-text">Pengaturan</span>
                 </a>
             </div>
 
