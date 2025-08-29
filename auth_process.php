@@ -1,9 +1,9 @@
 <?php
 session_start();
-// Memanggil file koneksi ke database
+// 1. Panggil file koneksi ke database
 require_once 'config/koneksi.php';
 
-// Memastikan request adalah metode POST
+// 2. Pastikan request adalah metode POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Mengambil username dan password dari form
     $username = $_POST['username'];
@@ -11,51 +11,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Validasi dasar: pastikan input tidak kosong
     if (empty($username) || empty($password)) {
-        // Jika kosong, kembalikan ke halaman login dengan pesan error
         header("Location: login.php?error=Username dan password wajib diisi");
         exit();
     }
 
-    // Mendapatkan koneksi database
+    // 3. Dapatkan koneksi database dan simpan ke variabel $pdo
     $pdo = getDB();
 
     try {
-        // Menyiapkan query untuk mencari user berdasarkan username
-        // Mengambil semua data yang dibutuhkan untuk session
+        // 4. Siapkan dan eksekusi query menggunakan $pdo
         $stmt = $pdo->prepare("SELECT id_user, username, password, nama, role FROM users WHERE username = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // --- PERUBAHAN UTAMA ADA DI SINI ---
-        // Memverifikasi apakah user ditemukan DAN password yang diinput sesuai dengan hash di database
-        // ... (sekitar baris 30)
+        // Memverifikasi apakah user ditemukan DAN password yang diinput sesuai
         if ($user && password_verify($password, $user['password'])) {
-            // Jika verifikasi berhasil, simpan informasi user ke dalam session
-
-            session_regenerate_id(true); // Mencegah session fixation attacks
+            session_regenerate_id(true);
 
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['username'] = $user['username'];
-            $_SESSION['nama'] = $user['nama']; // Menyimpan nama untuk ditampilkan di dashboard
+            $_SESSION['nama'] = $user['nama'];
             $_SESSION['role'] = $user['role'];
-            $_SESSION['logged_in'] = true; // <-- TAMBAHKAN BARIS INI
 
-            // Arahkan user ke dashboard admin
-            header("Location: admin/dashboard.php");
+            // --- TAMBAHKAN BARIS INI ---
+            $_SESSION['logged_in'] = true;
+
+            // Arahkan user ke dashboard yang sesuai dengan rolenya
+            if ($user['role'] === 'tamu') {
+                header("Location: tamu/dashboardtamu.php");
+            } else {
+                header("Location: admin/dashboard.php");
+            }
             exit();
         } else {
-            // Jika user tidak ditemukan atau password salah, kembalikan ke halaman login
+            // Jika user tidak ditemukan atau password salah
             header("Location: login.php?error=Username atau password salah");
             exit();
         }
     } catch (PDOException $e) {
-        // Jika terjadi error pada database, tampilkan pesan generik atau log error
-        // die("Error: " . $e->getMessage()); // Jangan tampilkan pesan error detail di production
+        // Jika terjadi error pada database
+        // die("Error: " . $e->getMessage()); // Baris ini bisa diaktifkan untuk debugging
         header("Location: login.php?error=Terjadi masalah pada sistem");
         exit();
     }
 } else {
-    // Jika halaman diakses bukan dengan metode POST, kembalikan ke halaman login
+    // Jika halaman diakses bukan dengan metode POST
     header("Location: login.php");
     exit();
 }

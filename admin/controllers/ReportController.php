@@ -1,9 +1,10 @@
 <?php
 // admin/controllers/ReportController.php
 
-require_once '../config/koneksi.php';
-require_once '../models/Report.php'; // Menggunakan model Report yang baru
-require_once 'includes/functions.php';
+require_once __DIR__ . '/../../config/koneksi.php';
+require_once __DIR__ . '/../../models/Report.php';
+// --- PERBAIKAN PATH DI SINI ---
+require_once __DIR__ . '/../includes/functions.php';
 
 // Inisialisasi model
 $reportModel = new Report();
@@ -17,4 +18,4 @@ $recent_transactions = $reportModel->getRecentTransactions();
 
 
 // Panggil layout utama yang akan merangkai semua bagian halaman
-require_once 'includes/layout.php';
+require_once __DIR__ . '/../includes/layout.php';
