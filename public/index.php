@@ -277,7 +277,6 @@
     .book-btn {
       background-color:
 
-<<<<<<< HEAD
 /* Wajib ditambahkan di CSS */
 body {
   display: flex;
@@ -465,7 +464,6 @@ main {
     }
 
     /* sesuaikan jika headermu lebih tinggi */
->>>>>>> 698652b451e59e261fddecbc84e8389deef4e5be
   </style>
 </head>
 
@@ -495,12 +493,11 @@ main {
           <li class="nav-item"><a class="nav-link" style="font-family: georgia; font-size: 20px;" href="#room">Room</a></li>
           <li class="nav-item"><a class="nav-link" style="font-family: georgia; font-size: 20px;" href="../login.php">Login</a></li>
         </ul>
-=======
+
     <div class="top-bar" style="background-color: #012A2A">
       <div class="logo">
         <img src="img/logoputih.png" alt="Tourism Hotel Logo">
         <span class="logo-text">Stay-Explore-Enjoy</span>
->>>>>>> 698652b451e59e261fddecbc84e8389deef4e5be
       </div>
       <a href="booknow.php" class="book-btn">BOOK NOW</a>
     </div>
@@ -616,7 +613,6 @@ main {
   </section>
   <hr>
 
-<<<<<<< HEAD
     <section class="custom-section py-5">
         <div class="custom-container">
             <br>
@@ -640,7 +636,6 @@ main {
             <div class="room-info">
                 <h3 style="font-family: georgia; font-style: italic; color:#8a733f;">Tourism Hotel</h3>
                 <a href="findmore.php" class="btn btn-outline-primary">Find for More</a>
-=======
   <section class="custom-section py-5">
     <div class="custom-container">
       <br>
@@ -713,12 +708,10 @@ main {
               </div>
               <a href="suite.php" class="btn btn-outline-primary">See More</a>
               <a href="booknow.php" class="btn btn-outline-primary">Book Now</a>
->>>>>>> 698652b451e59e261fddecbc84e8389deef4e5be
             </div>
           </div>
         </div>
 
-<<<<<<< HEAD
     <!--Room-->
     <section class="custom-section py-5">
         <div class="custom-container">
@@ -782,7 +775,6 @@ main {
                         </div>
                     </div>
                 </div>
-=======
         <div class="col-md-4">
           <div class="card">
             <img src="img/deluxe.jpg" width="800px" class="card-img-top" alt="Gambar 2">
@@ -798,11 +790,9 @@ main {
               </div>
               <a href="deluxe.php" class="btn btn-outline-primary">See More</a>
               <a href="booknow.php" class="btn btn-outline-primary">BOOK NOW</a>
->>>>>>> 698652b451e59e261fddecbc84e8389deef4e5be
             </div>
           </div>
         </div>
-<<<<<<< HEAD
         </div>
     </section>
     <hr>
@@ -838,7 +828,6 @@ main {
     </div>
   </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-=======
         <div class="col-md-4">
           <div class="card">
             <img src="img/standard.jpg" width="800px" class="card-img-top" alt="Gambar 2">
@@ -878,7 +867,6 @@ main {
     <p class="mb-0 font-size:25px">&copy; 2025 Tourism Hotel. All rights reserved.</p>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
->>>>>>> 698652b451e59e261fddecbc84e8389deef4e5be
 </body>
 
 </html>
