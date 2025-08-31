@@ -1,6 +1,5 @@
 <?php
 // models/Reservation.php
-// Model untuk mengelola data reservasi
 
 class Reservation
 {
@@ -11,182 +10,236 @@ class Reservation
         $this->db = getDB();
     }
 
+    // Ambil semua reservasi dengan data tamu dan kamar
     public function getAll()
     {
-        $sql = "SELECT r.*, t.nama as nama_tamu, k.no_kamar, k.tipe_kamar 
-                FROM reservasi r 
-                JOIN tamu t ON r.id_tamu = t.id_tamu 
-                JOIN kamar k ON r.id_kamar = k.id_kamar 
-                ORDER BY r.created_at DESC";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        try {
+            $sql = "SELECT r.*, t.nama as nama_tamu, t.no_hp, t.email, 
+                           k.no_kamar, k.tipe_kamar, k.harga
+                    FROM reservasi r
+                    JOIN tamu t ON r.id_tamu = t.id_tamu
+                    JOIN kamar k ON r.id_kamar = k.id_kamar
+                    ORDER BY r.created_at DESC";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting all reservations: " . $e->getMessage());
+            return [];
+        }
     }
 
+    // Ambil reservasi berdasarkan ID
     public function getById($id)
     {
-        $sql = "SELECT r.*, t.nama as nama_tamu, t.email, t.no_hp, 
-                       k.no_kamar, k.tipe_kamar 
-                FROM reservasi r 
-                JOIN tamu t ON r.id_tamu = t.id_tamu 
-                JOIN kamar k ON r.id_kamar = k.id_kamar 
-                WHERE r.id_reservasi = ?";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$id]);
-        return $stmt->fetch();
+        try {
+            $sql = "SELECT r.*, t.nama as nama_tamu, t.no_hp, t.email, t.alamat, t.no_identitas,
+                           k.no_kamar, k.tipe_kamar, k.harga
+                    FROM reservasi r
+                    JOIN tamu t ON r.id_tamu = t.id_tamu
+                    JOIN kamar k ON r.id_kamar = k.id_kamar
+                    WHERE r.id_reservasi = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting reservation by ID: " . $e->getMessage());
+            return false;
+        }
     }
 
+    // Tambah reservasi baru
     public function create($data)
     {
         try {
-            $this->db->beginTransaction();
-
-            // Generate kode reservasi
-            // $kode_reservasi = 'RSV' . date('ymd') . rand(1000, 9999);
-
             $sql = "INSERT INTO reservasi (id_tamu, id_kamar, tgl_checkin, tgl_checkout, total_biaya, status) 
-                    VALUES ( ?, ?, ?, ?, ?, ?)";
+                    VALUES (:id_tamu, :id_kamar, :tgl_checkin, :tgl_checkout, :total_biaya, :status)";
+
             $stmt = $this->db->prepare($sql);
-            $result = $stmt->execute([
-                // $kode_reservasi,
-                $data['id_tamu'],
-                $data['id_kamar'],
-                $data['tgl_checkin'],
-                $data['tgl_checkout'],
-                $data['total_biaya'],
-                $data['status'] ?? 'pending'
-            ]);
+            $stmt->bindParam(':id_tamu', $data['id_tamu']);
+            $stmt->bindParam(':id_kamar', $data['id_kamar']);
+            $stmt->bindParam(':tgl_checkin', $data['tgl_checkin']);
+            $stmt->bindParam(':tgl_checkout', $data['tgl_checkout']);
+            $stmt->bindParam(':total_biaya', $data['total_biaya']);
+            $stmt->bindParam(':status', $data['status']);
 
-            if ($result) {
-                // Update status kamar menjadi dibooking
-                $stmt = $this->db->prepare("UPDATE kamar SET status = 'dibooking' WHERE id_kamar = ?");
-                $stmt->execute([$data['id_kamar']]);
-
-                $this->db->commit();
-                return true;
-            }
-
-            $this->db->rollback();
-            return false;
+            return $stmt->execute();
         } catch (PDOException $e) {
-            $this->db->rollback();
+            error_log("Error creating reservation: " . $e->getMessage());
             return false;
         }
     }
 
+    // Update data reservasi
     public function update($id, $data)
     {
-        $sql = "UPDATE reservasi SET tgl_checkin = ?, tgl_checkout = ?, total_biaya = ?, status = ? WHERE id_reservasi = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            $data['tgl_checkin'],
-            $data['tgl_checkout'],
-            $data['total_biaya'],
-            $data['status'],
-            $id
-        ]);
+        try {
+            $sql = "UPDATE reservasi SET 
+                    id_tamu = :id_tamu, 
+                    id_kamar = :id_kamar, 
+                    tgl_checkin = :tgl_checkin, 
+                    tgl_checkout = :tgl_checkout, 
+                    total_biaya = :total_biaya, 
+                    status = :status
+                    WHERE id_reservasi = :id";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':id_tamu', $data['id_tamu']);
+            $stmt->bindParam(':id_kamar', $data['id_kamar']);
+            $stmt->bindParam(':tgl_checkin', $data['tgl_checkin']);
+            $stmt->bindParam(':tgl_checkout', $data['tgl_checkout']);
+            $stmt->bindParam(':total_biaya', $data['total_biaya']);
+            $stmt->bindParam(':status', $data['status']);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error updating reservation: " . $e->getMessage());
+            return false;
+        }
     }
 
+    // Update status reservasi - METHOD YANG HILANG!
     public function updateStatus($id, $status)
     {
         try {
-            $this->db->beginTransaction();
+            $sql = "UPDATE reservasi SET status = :status WHERE id_reservasi = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
-            // Update status reservasi
-            $stmt = $this->db->prepare("UPDATE reservasi SET status = ? WHERE id_reservasi = ?");
-            $result = $stmt->execute([$status, $id]);
+            $result = $stmt->execute();
 
+            // Debugging - cek apakah query berhasil
             if ($result) {
-                // Update status kamar berdasarkan status reservasi
-                $reservasi = $this->getById($id);
-                if ($reservasi) {
-                    $kamar_status = 'kosong';
-                    switch ($status) {
-                        case 'confirmed':
-                        case 'pending':
-                            $kamar_status = 'dibooking';
-                            break;
-                        case 'checkin':
-                            $kamar_status = 'terisi';
-                            break;
-                        case 'checkout':
-                        case 'cancelled':
-                            $kamar_status = 'kosong';
-                            break;
-                    }
-
-                    $stmt = $this->db->prepare("UPDATE kamar SET status = ? WHERE id_kamar = ?");
-                    $stmt->execute([$kamar_status, $reservasi['id_kamar']]);
-                }
-
-                $this->db->commit();
-                return true;
+                error_log("Reservation status updated successfully. ID: $id, Status: $status");
+            } else {
+                error_log("Failed to update reservation status. ID: $id, Status: $status");
             }
 
-            $this->db->rollback();
-            return false;
+            return $result;
         } catch (PDOException $e) {
-            $this->db->rollback();
+            error_log("Error updating reservation status: " . $e->getMessage());
             return false;
         }
     }
 
+    // Hapus reservasi
     public function delete($id)
     {
         try {
-            $this->db->beginTransaction();
-
-            // Ambil data reservasi
-            $reservasi = $this->getById($id);
-            if (!$reservasi) {
-                return false;
-            }
-
-            // Hapus reservasi
-            $stmt = $this->db->prepare("DELETE FROM reservasi WHERE id_reservasi = ?");
-            $result = $stmt->execute([$id]);
-
-            if ($result) {
-                // Update status kamar menjadi kosong
-                $stmt = $this->db->prepare("UPDATE kamar SET status = 'kosong' WHERE id_kamar = ?");
-                $stmt->execute([$reservasi['id_kamar']]);
-
-                $this->db->commit();
-                return true;
-            }
-
-            $this->db->rollback();
-            return false;
+            $sql = "DELETE FROM reservasi WHERE id_reservasi = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
         } catch (PDOException $e) {
-            $this->db->rollback();
+            error_log("Error deleting reservation: " . $e->getMessage());
             return false;
         }
     }
 
-    public function getToday()
+    // Cek ketersediaan kamar untuk periode tertentu
+    public function checkRoomAvailability($room_id, $checkin_date, $checkout_date, $exclude_reservation_id = null)
     {
-        $sql = "SELECT r.*, t.nama as nama_tamu, k.no_kamar, k.tipe_kamar 
-                FROM reservasi r 
-                JOIN tamu t ON r.id_tamu = t.id_tamu 
-                JOIN kamar k ON r.id_kamar = k.id_kamar 
-                WHERE DATE(r.tgl_checkin) = CURDATE() 
-                ORDER BY r.created_at DESC";
-        $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        try {
+            $sql = "SELECT COUNT(*) as count FROM reservasi 
+                    WHERE id_kamar = :room_id 
+                    AND status NOT IN ('cancelled', 'checkout')
+                    AND (
+                        (tgl_checkin BETWEEN :checkin AND :checkout) OR
+                        (tgl_checkout BETWEEN :checkin AND :checkout) OR
+                        (tgl_checkin <= :checkin AND tgl_checkout >= :checkout)
+                    )";
+
+            if ($exclude_reservation_id) {
+                $sql .= " AND id_reservasi != :exclude_id";
+            }
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':room_id', $room_id);
+            $stmt->bindParam(':checkin', $checkin_date);
+            $stmt->bindParam(':checkout', $checkout_date);
+
+            if ($exclude_reservation_id) {
+                $stmt->bindParam(':exclude_id', $exclude_reservation_id);
+            }
+
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $result['count'] == 0;
+        } catch (PDOException $e) {
+            error_log("Error checking room availability: " . $e->getMessage());
+            return false;
+        }
     }
 
-    public function getStats()
+    // Ambil reservasi berdasarkan tamu
+    public function getByGuestId($guest_id)
     {
-        $stmt = $this->db->query("
-            SELECT 
-                COUNT(*) as total,
-                SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
-                SUM(CASE WHEN status = 'confirmed' THEN 1 ELSE 0 END) as confirmed,
-                SUM(CASE WHEN status = 'checkin' THEN 1 ELSE 0 END) as checkin,
-                SUM(CASE WHEN status = 'checkout' THEN 1 ELSE 0 END) as checkout,
-                SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) as cancelled
-            FROM reservasi 
-            WHERE DATE(created_at) = CURDATE()
-        ");
-        return $stmt->fetch();
+        try {
+            $sql = "SELECT r.*, k.no_kamar, k.tipe_kamar, k.harga
+                    FROM reservasi r
+                    JOIN kamar k ON r.id_kamar = k.id_kamar
+                    WHERE r.id_tamu = :guest_id
+                    ORDER BY r.created_at DESC";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':guest_id', $guest_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting reservations by guest ID: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    // Ambil reservasi berdasarkan status
+    public function getByStatus($status)
+    {
+        try {
+            $sql = "SELECT r.*, t.nama as nama_tamu, t.no_hp, 
+                           k.no_kamar, k.tipe_kamar
+                    FROM reservasi r
+                    JOIN tamu t ON r.id_tamu = t.id_tamu
+                    JOIN kamar k ON r.id_kamar = k.id_kamar
+                    WHERE r.status = :status
+                    ORDER BY r.created_at DESC";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':status', $status);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error getting reservations by status: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    // Hitung total reservasi
+    public function getTotalCount()
+    {
+        try {
+            $sql = "SELECT COUNT(*) as total FROM reservasi";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['total'];
+        } catch (PDOException $e) {
+            error_log("Error getting total reservation count: " . $e->getMessage());
+            return 0;
+        }
+    }
+
+    // Generate kode reservasi unik
+    public function generateReservationCode()
+    {
+        $prefix = 'RSV';
+        $date = date('ymd');
+        $random = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+        return $prefix . $date . $random;
     }
 }
