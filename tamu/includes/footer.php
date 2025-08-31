@@ -58,80 +58,92 @@
         });
 
         // Confirm delete dengan SweetAlert
-        $('.btn-delete').click(function(e) {
+        $(document).on('click', '#logout-link-tamu, #logout-link-manager', function(e) {
             e.preventDefault();
             const href = $(this).attr('href');
-            const name = $(this).data('name');
 
             Swal.fire({
-                title: 'Konfirmasi Hapus',
-                text: `Yakin ingin menghapus ${name}?`,
+                title: 'Konfirmasi Logout',
+                text: "Apakah Anda yakin ingin mengakhiri sesi ini?",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus!',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Logout!',
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = href;
+                    // Tampilkan loading sebelum redirect
+                    Swal.fire({
+                        title: 'Logging out...',
+                        text: 'Mohon tunggu sebentar.',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    // Redirect setelah jeda singkat
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 800);
                 }
             });
-        });
 
-        // Confirm cancel reservation
-        $('.btn-cancel').click(function(e) {
-            e.preventDefault();
-            const href = $(this).attr('href');
+            // Confirm cancel reservation
+            $('.btn-cancel').click(function(e) {
+                e.preventDefault();
+                const href = $(this).attr('href');
 
-            Swal.fire({
-                title: 'Konfirmasi Pembatalan',
-                text: 'Yakin ingin membatalkan reservasi ini?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Batalkan!',
-                cancelButtonText: 'Tidak'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = href;
+                Swal.fire({
+                    title: 'Konfirmasi Pembatalan',
+                    text: 'Yakin ingin membatalkan reservasi ini?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Batalkan!',
+                    cancelButtonText: 'Tidak'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = href;
+                    }
+                });
+            });
+
+            // Mobile sidebar toggle
+            $('#mobileSidebarToggle').click(function() {
+                $('#sidebar').toggleClass('show');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            $(document).click(function(e) {
+                if (!$(e.target).closest('#sidebar, #mobileSidebarToggle').length) {
+                    $('#sidebar').removeClass('show');
                 }
             });
-        });
 
-        // Mobile sidebar toggle
-        $('#mobileSidebarToggle').click(function() {
-            $('#sidebar').toggleClass('show');
-        });
+            // Auto update current time
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('id-ID');
+                const dateString = now.toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
 
-        // Close sidebar when clicking outside on mobile
-        $(document).click(function(e) {
-            if (!$(e.target).closest('#sidebar, #mobileSidebarToggle').length) {
-                $('#sidebar').removeClass('show');
+                $('#currentTime').text(timeString);
+                $('#currentDate').text(dateString);
+            }
+
+            // Update time every second
+            if ($('#currentTime').length) {
+                updateTime();
+                setInterval(updateTime, 1000);
             }
         });
-
-        // Auto update current time
-        function updateTime() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('id-ID');
-            const dateString = now.toLocaleDateString('id-ID', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-
-            $('#currentTime').text(timeString);
-            $('#currentDate').text(dateString);
-        }
-
-        // Update time every second
-        if ($('#currentTime').length) {
-            updateTime();
-            setInterval(updateTime, 1000);
-        }
     });
 </script>
 </body>

@@ -333,8 +333,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item text-danger" href="../logout.php"
-                                    onclick="return confirm('Yakin ingin logout?')">
+                                <a class="dropdown-item text-danger" href="../logout.php" id="logout-link-admin">
                                     <i class="fas fa-sign-out-alt me-2"></i>Logout
                                 </a>
                             </li>

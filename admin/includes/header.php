@@ -375,25 +375,16 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 </div>
 
                 <div class="d-flex align-items-center">
-                    <div class="dropdown">
-                        <!-- <button class="btn btn-link dropdown-toggle text-decoration-none" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="dropdown mx-5">
+                        <button class="btn dropdown-toggle text-decoration-none" type="button"
+                            id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user-circle me-2"></i>
                             <span><?php echo $_SESSION['nama']; ?></span>
-                        </button> -->
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
-                                <a class="dropdown-item" href="profile.php">
-                                    <i class="fas fa-user me-2"></i>Profil
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="../logout.php"
-                                    onclick="return confirm('Yakin ingin logout?')">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                <a class="dropdown-item text-danger" href="../logout.php" id="logout-link-admin">
+                                    <i class="fas fa-sign-out-alt me-0"></i>Logout
                                 </a>
                             </li>
                         </ul>

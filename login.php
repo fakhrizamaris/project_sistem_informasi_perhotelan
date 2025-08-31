@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($_SESSION['role'] === 'tamu') {
             header('Location: tamu/dashboardtamu.php');
         } elseif ($_SESSION['role'] === 'manajer') {
-            header('Location: manajer/dashboard.php');
+            header('Location: manager/dashboard.php');
         }
         exit;
     } else {

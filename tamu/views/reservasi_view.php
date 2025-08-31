@@ -93,8 +93,7 @@ global $reservations, $viewReservation, $page_title;
                                 <td>
                                     <?php echo getStatusBadge($res['status']); ?>
                                 </td>
-                                // (Bagian atas file tetap sama)
-                                ...
+
                                 <td>
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal" data-reservation='<?php echo json_encode($res); ?>' title="Detail">

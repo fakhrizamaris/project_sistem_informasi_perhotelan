@@ -24,8 +24,13 @@ $viewReservation = null;
 
 switch ($action) {
     case 'cancel':
-        // ... (logika cancel)
-        break;
+        if ($id && $tamuReservationModel->cancelReservation($user_id, $id)) {
+            setSuccess('Reservasi berhasil dibatalkan.');
+        } else {
+            setError('Gagal membatalkan reservasi. Mungkin reservasi sudah dikonfirmasi atau sudah lewat waktunya.');
+        }
+        header('Location: reservasi.php');
+        exit;
 
     case 'checkin':
         if ($id && $reservationModel->updateStatus($id, 'checkin')) {
@@ -49,15 +54,17 @@ switch ($action) {
         exit;
 
     case 'view':
-        // ... (logika view)
+        if ($id) {
+            // Logika untuk menampilkan detail satu reservasi (opsional, jika diperlukan)
+            // Untuk saat ini, modal di view sudah cukup
+        }
         break;
 
-    default: // 'index'
-        // ... (logika index)
+    default: // 'index' atau jika tidak ada aksi
+        // Ambil semua data reservasi untuk tamu yang login
+        $reservations = $tamuReservationModel->getAllReservations($user_id);
         break;
 }
-
-// (Sisa file tetap sama)
 
 // Memanggil file layout yang akan merangkai header, view, dan footer
 require_once __DIR__ . '/../includes/layout.php';

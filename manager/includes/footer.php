@@ -58,23 +58,35 @@
         });
 
         // Confirm delete dengan SweetAlert
-        $('.btn-delete').click(function(e) {
+        $(document).on('click', '#logout-link-tamu, #logout-link-manager', function(e) {
             e.preventDefault();
             const href = $(this).attr('href');
-            const name = $(this).data('name');
 
             Swal.fire({
-                title: 'Konfirmasi Hapus',
-                text: `Yakin ingin menghapus ${name}?`,
+                title: 'Konfirmasi Logout',
+                text: "Apakah Anda yakin ingin mengakhiri sesi ini?",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus!',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Logout!',
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = href;
+                    // Tampilkan loading sebelum redirect
+                    Swal.fire({
+                        title: 'Logging out...',
+                        text: 'Mohon tunggu sebentar.',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    // Redirect setelah jeda singkat
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 800);
                 }
             });
         });

@@ -15,21 +15,62 @@ $page_title = 'Kelola Reservasi';
 
 // Logika untuk menangani request POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Tambahkan logika POST di sini jika diperlukan
-    // Contoh: tambah reservasi baru
+
+    // Menangani update status dari modal
+    if (isset($_POST['update_status'])) {
+        $id_reservasi = $_POST['reservation_id'];
+        $status_baru = $_POST['status'];
+        $reservation = $reservationModel->getById($id_reservasi); // Ambil data reservasi saat ini
+
+        if (!$reservation) {
+            setError('Reservasi tidak ditemukan.');
+        } else {
+            if ($reservationModel->updateStatus($id_reservasi, $status_baru)) {
+                setSuccess('Status reservasi berhasil diperbarui.');
+
+                // --- LOGIKA TAMBAHAN UNTUK UPDATE STATUS KAMAR ---
+                // Jika status baru adalah check-in
+                if ($status_baru === 'checkin' && $reservation['status'] === 'confirmed') {
+                    $roomModel->updateStatus($reservation['id_kamar'], 'terisi');
+                }
+                // Jika status baru adalah check-out
+                elseif ($status_baru === 'checkout' && $reservation['status'] === 'checkin') {
+                    $roomModel->updateStatus($reservation['id_kamar'], 'kosong');
+                }
+                // Jika status baru adalah confirmed
+                elseif ($status_baru === 'confirmed' && $reservation['status'] === 'pending') {
+                    $roomModel->updateStatus($reservation['id_kamar'], 'dibooking');
+                }
+                // Jika reservasi dibatalkan
+                elseif ($status_baru === 'cancelled') {
+                    // Hanya kosongkan kamar jika status sebelumnya adalah pending atau confirmed
+                    if (in_array($reservation['status'], ['pending', 'confirmed'])) {
+                        $roomModel->updateStatus($reservation['id_kamar'], 'kosong');
+                    }
+                }
+            } else {
+                setError('Gagal memperbarui status reservasi.');
+            }
+        }
+        header('Location: reservations.php');
+        exit;
+    }
+
+    // Logika untuk tambah reservasi baru (biarkan seperti semula)
     if (isset($_POST['action']) && $_POST['action'] === 'add') {
-        // Logika tambah reservasi
         $data = [
             'id_tamu' => $_POST['id_tamu'],
             'id_kamar' => $_POST['id_kamar'],
             'tgl_checkin' => $_POST['tgl_checkin'],
             'tgl_checkout' => $_POST['tgl_checkout'],
             'total_biaya' => $_POST['total_biaya'],
-            'status' => 'pending'
+            'status' => 'pending' // Status awal
         ];
 
         if ($reservationModel->create($data)) {
             setSuccess('Reservasi berhasil ditambahkan.');
+            // Update status kamar yang dipilih menjadi 'dibooking'
+            $roomModel->updateStatus($_POST['id_kamar'], 'dibooking');
         } else {
             setError('Gagal menambahkan reservasi.');
         }

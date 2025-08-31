@@ -32,24 +32,21 @@
 
         // Confirm delete dengan SweetAlert
         // Ketika tombol dengan class .btn-delete di-klik
-        $('.btn-delete').on('click', function(e) {
-            e.preventDefault(); // Mencegah link langsung dieksekusi
+        $('#logout-link-admin').on('click', function(e) {
+            e.preventDefault();
             const href = $(this).attr('href');
-            const name = $(this).data('name');
 
             Swal.fire({
-                title: 'Apakah Anda Yakin?',
-                text: `Anda akan menghapus data ${name}. Tindakan ini tidak bisa dibatalkan.`,
+                title: 'Konfirmasi Logout',
+                text: "Apakah Anda yakin ingin mengakhiri sesi ini?",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus Saja!',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Logout!',
                 cancelButtonText: 'Batal'
             }).then((result) => {
-                // Jika user menekan tombol "Ya, Hapus Saja!"
                 if (result.isConfirmed) {
-                    // Arahkan ke link hapus
                     window.location.href = href;
                 }
             });
