@@ -161,6 +161,36 @@ session_start();
             font-size: 0.9rem;
             color: #6c757d;
         }
+
+        /* ===== Perbaikan untuk Carousel ===== */
+#hotelCarousel .carousel-inner {
+    height: 600px; /* Atur tinggi carousel sesuai keinginan, misal 600px */
+}
+
+#hotelCarousel .carousel-item {
+    height: 100%;
+}
+
+#hotelCarousel .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ini adalah bagian terpenting */
+    object-position: center; /* Memastikan gambar terpusat */
+}
+
+/* Penyesuaian untuk layar yang lebih kecil (mobile) */
+@media (max-width: 768px) {
+    #hotelCarousel .carousel-inner {
+        height: 400px; /* Tinggi yang lebih sesuai untuk mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    #hotelCarousel .carousel-inner {
+        height: 300px; /* Tinggi yang lebih sesuai untuk mobile dengan layar sangat kecil */
+    }
+}
+/* ===== Akhir Perbaikan Carousel ===== */
     </style>
 </head>
 

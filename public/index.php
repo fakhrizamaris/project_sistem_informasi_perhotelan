@@ -85,6 +85,7 @@
     <p class="text-center text-muted mb-5 mx-auto" style="max-width: 700px;">Our rooms are thoughtfully designed to provide comfort and relaxation. Each is equipped with modern amenities to ensure a pleasant stay for both business and leisure travelers.</p>
 
     <div class="row g-4 justify-content-center">
+
       <div class="col-md-6 col-lg-4">
         <div class="card h-100">
           <img src="img/executive.jpg" class="card-img-top" alt="Suite Room">
@@ -97,7 +98,7 @@
               <span><i class="fas fa-users"></i> 2 Adults</span>
             </div>
             <div class="mt-auto text-center">
-              <a href="booknow.php" class="btn btn-outline-dark w-100">Book Now</a>
+              <a href="suite.php" class="btn btn-outline-dark w-100">View Details</a>
             </div>
           </div>
         </div>
@@ -115,7 +116,7 @@
               <span><i class="fas fa-users"></i> 2 Adults</span>
             </div>
             <div class="mt-auto text-center">
-              <a href="../login.php" class="btn btn-outline-dark w-100">Book Now</a>
+              <a href="deluxe.php" class="btn btn-outline-dark w-100">View Details</a>
             </div>
           </div>
         </div>
@@ -133,11 +134,12 @@
               <span><i class="fas fa-users"></i> 2 Adults</span>
             </div>
             <div class="mt-auto text-center">
-              <a href="../login.php" class="btn btn-outline-dark w-100">Book Now</a>
+              <a href="standard.php" class="btn btn-outline-dark w-100">View Details</a>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
