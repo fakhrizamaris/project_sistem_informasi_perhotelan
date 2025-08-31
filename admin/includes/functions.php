@@ -223,6 +223,65 @@ function getStatusBadge($status, $type = 'room')
     return '<span class="badge bg-secondary">' . ucfirst($status) . '</span>';
 }
 
+function hitungDurasiMenginap($checkin_date, $checkout_date)
+{
+    try {
+        $checkin = new DateTime($checkin_date);
+        $checkout = new DateTime($checkout_date);
+        $diff = $checkin->diff($checkout);
+        return $diff->days > 0 ? $diff->days : 1;
+    } catch (Exception $e) {
+        return 0;
+    }
+}
+
+// Hitung total biaya
+function hitungTotalBiaya($harga_per_malam, $durasi_menginap)
+{
+    return $harga_per_malam * $durasi_menginap;
+}
+
+// Validasi tanggal booking
+function validasiTanggalBooking($checkin_date, $checkout_date)
+{
+    try {
+        $today = new DateTime();
+        $checkin = new DateTime($checkin_date);
+        $checkout = new DateTime($checkout_date);
+
+        if ($checkin < $today->setTime(0, 0, 0)) {
+            return ['valid' => false, 'message' => 'Tanggal check-in tidak boleh kurang dari hari ini'];
+        }
+
+        if ($checkout <= $checkin) {
+            return ['valid' => false, 'message' => 'Tanggal check-out harus setelah tanggal check-in'];
+        }
+
+        return ['valid' => true];
+    } catch (Exception $e) {
+        return ['valid' => false, 'message' => 'Format tanggal tidak valid.'];
+    }
+}
+
+// Cek apakah tamu bisa membatalkan reservasi
+function bisaBatalkanReservasi($status, $checkin_date)
+{
+    if ($status !== 'pending') {
+        return false;
+    }
+
+    try {
+        $today = new DateTime();
+        $checkin = new DateTime($checkin_date);
+        $diff = $today->diff($checkin)->days;
+
+        // Bisa dibatalkan minimal 1 hari sebelum check-in
+        return $diff >= 1;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
 /**
  * FUNGSI DATABASE HELPER
  */

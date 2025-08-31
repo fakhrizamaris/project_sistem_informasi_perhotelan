@@ -93,11 +93,13 @@ global $reservations, $viewReservation, $page_title;
                                 <td>
                                     <?php echo getStatusBadge($res['status']); ?>
                                 </td>
+                                // (Bagian atas file tetap sama)
+                                ...
                                 <td>
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal" data-reservation='<?php echo json_encode($res); ?>' title="Detail">
                                             <i class="fas fa-eye"></i>
-                                        </button>   
+                                        </button>
 
                                         <?php if ($res['status'] == 'pending') : ?>
                                             <a href="pembayaran.php?id=<?php echo $res['id_reservasi']; ?>"
@@ -107,16 +109,30 @@ global $reservations, $viewReservation, $page_title;
                                             </a>
                                         <?php endif; ?>
 
-                                        <?php if ($res['status'] == 'pending' && bisaBatalkanReservasi($res['status'], $res['tgl_checkin'])) : ?>
+                                        <?php // Tombol Check-in untuk tamu
+                                        if ($res['status'] == 'confirmed' && date('Y-m-d') >= $res['tgl_checkin']) : ?>
+                                            <a href="reservasi.php?action=checkin&id=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-success" title="Check-in Mandiri" onclick="return confirm('Anda akan melakukan check-in sekarang?')">
+                                                <i class="fas fa-sign-in-alt"></i>
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php // Tombol Check-out untuk tamu
+                                        if ($res['status'] == 'checkin' && date('Y-m-d') >= $res['tgl_checkout']) : ?>
+                                            <a href="reservasi.php?action=checkout&id=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-warning" title="Check-out Mandiri" onclick="return confirm('Anda akan melakukan check-out sekarang?')">
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </a>
+                                        <?php endif; ?>
+
+                                        <?php if (bisaBatalkanReservasi($res['status'], $res['tgl_checkin'])) : ?>
                                             <a href="reservasi.php?action=cancel&id=<?php echo $res['id_reservasi']; ?>"
                                                 class="btn btn-sm btn-danger btn-cancel"
-                                                data-name="reservasi <?php echo $booking_ref; ?>"
                                                 title="Batalkan">
                                                 <i class="fas fa-times"></i>
                                             </a>
                                         <?php endif; ?>
                                     </div>
                                 </td>
+
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

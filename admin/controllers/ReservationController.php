@@ -15,50 +15,44 @@ $page_title = 'Kelola Reservasi';
 
 // Logika untuk menangani request POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Handle update status
-    if (isset($_POST['update_status'])) {
-        $id = $_POST['reservation_id'];
-        $status = $_POST['status'];
-        if ($reservationModel->updateStatus($id, $status)) {
-            setSuccess('Status reservasi berhasil diupdate.');
-        } else {
-            setError('Gagal mengupdate status reservasi.');
-        }
-        header('Location: reservations.php');
-        exit;
-    }
-    // Handle reservasi baru dari form modal
-    elseif (isset($_POST['action']) && $_POST['action'] === 'create') {
-        $data = [
-            'id_tamu'       => $_POST['id_tamu'],
-            'id_kamar'      => $_POST['id_kamar'],
-            'tgl_checkin'   => $_POST['tgl_checkin'],
-            'tgl_checkout'  => $_POST['tgl_checkout'],
-            'total_biaya'   => $_POST['total_biaya'],
-            'status'        => 'confirmed' // Langsung set 'confirmed' karena dibuat oleh admin
-        ];
-
-        if ($reservationModel->create($data)) {
-            setSuccess('Reservasi baru berhasil ditambahkan.');
-        } else {
-            setError('Gagal menambahkan reservasi. Pastikan semua data sudah benar.');
-        }
-        header('Location: reservations.php');
-        exit;
-    }
+    // ... (kode POST yang sudah ada)
 }
 
-// Logika untuk menangani request GET (hapus)
-if (isset($_GET['action']) && $_GET['action'] === 'delete') {
-    $id = $_GET['id'];
-    if ($reservationModel->delete($id)) {
-        setSuccess('Reservasi berhasil dihapus.');
-    } else {
-        setError('Gagal menghapus reservasi. Mungkin terkait dengan data lain.');
+// Logika untuk menangani request GET (hapus, checkin, checkout)
+$action = $_GET['action'] ?? null;
+$id = $_GET['id'] ?? null;
+
+if ($action && $id) {
+    switch ($action) {
+        case 'delete':
+            if ($reservationModel->delete($id)) {
+                setSuccess('Reservasi berhasil dihapus.');
+            } else {
+                setError('Gagal menghapus reservasi.');
+            }
+            break;
+        case 'checkin':
+            if ($reservationModel->updateStatus($id, 'checkin')) {
+                setSuccess('Tamu berhasil check-in.');
+            } else {
+                setError('Gagal melakukan check-in.');
+            }
+            break;
+        case 'checkout':
+            if ($reservationModel->updateStatus($id, 'checkout')) {
+                setSuccess('Tamu berhasil check-out.');
+                // Redirect ke halaman invoice setelah checkout
+                header('Location: ../public/invoice.php?id=' . $id);
+                exit;
+            } else {
+                setError('Gagal melakukan check-out.');
+            }
+            break;
     }
     header('Location: reservations.php');
     exit;
 }
+
 
 // Mengambil semua data yang diperlukan untuk view
 $reservations = $reservationModel->getAll();

@@ -37,6 +37,12 @@ global $reservations, $availableRooms, $page_title, $guests, $viewReservation;
                                 <td><?php echo getStatusBadge($res['status'], 'reservation'); ?></td>
                                 <td>
                                     <a href="?view=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm" title="Lihat Detail"><i class="fas fa-eye"></i></a>
+                                    <?php if ($res['status'] == 'confirmed'): ?>
+                                        <a href="reservations.php?action=checkin&id=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-success" title="Check-in Tamu" onclick="return confirm('Anda yakin ingin melakukan check-in untuk tamu ini?')"><i class="fas fa-sign-in-alt"></i></a>
+                                    <?php endif; ?>
+                                    <?php if ($res['status'] == 'checkin'): ?>
+                                        <a href="reservations.php?action=checkout&id=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-warning" title="Check-out Tamu" onclick="return confirm('Anda yakin ingin melakukan check-out untuk tamu ini?')"><i class="fas fa-sign-out-alt"></i></a>
+                                    <?php endif; ?>
                                     <a href="reservations.php?action=delete&id=<?php echo $res['id_reservasi']; ?>" class="btn btn-sm btn-delete" data-name="<?php echo 'reservasi ' . htmlspecialchars($res['nama_tamu']); ?>" title="Hapus"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
@@ -51,7 +57,6 @@ global $reservations, $availableRooms, $page_title, $guests, $viewReservation;
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="addReservationModal" tabindex="-1" aria-labelledby="addReservationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

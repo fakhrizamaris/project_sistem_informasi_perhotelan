@@ -12,21 +12,18 @@ class Report
 
     /**
      * Mengambil statistik pendapatan untuk hari ini.
-     */    public function getTodaysRevenue()
+     */
+    public function getTodaysRevenue()
     {
-        // --- PERBAIKAN QUERY DI SINI ---
         $stmt = $this->db->query("
             SELECT 
-                -- Menghitung total pendapatan dari reservasi yang statusnya 'checkout' DAN tanggalnya adalah hari ini
                 COALESCE(SUM(total_biaya), 0) as total_pendapatan,
-                -- Menghitung jumlah transaksi/reservasi yang selesai hari ini
                 COUNT(id_reservasi) as jumlah_transaksi
             FROM reservasi 
             WHERE status = 'checkout' AND DATE(updated_at) = CURDATE()
         ");
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
 
     /**
      * Mengambil daftar transaksi terakhir (misal: 10 transaksi checkout terbaru).
@@ -49,5 +46,47 @@ class Report
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Mengambil pendapatan mingguan.
+     */
+    public function getWeeklyRevenue()
+    {
+        $stmt = $this->db->query("
+            SELECT 
+                COALESCE(SUM(total_biaya), 0) as total_pendapatan
+            FROM reservasi 
+            WHERE status = 'checkout' AND WEEK(updated_at) = WEEK(CURDATE())
+        ");
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Mengambil pendapatan bulanan.
+     */
+    public function getMonthlyRevenue()
+    {
+        $stmt = $this->db->query("
+            SELECT 
+                COALESCE(SUM(total_biaya), 0) as total_pendapatan
+            FROM reservasi 
+            WHERE status = 'checkout' AND MONTH(updated_at) = MONTH(CURDATE())
+        ");
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Mengambil pendapatan tahunan.
+     */
+    public function getYearlyRevenue()
+    {
+        $stmt = $this->db->query("
+            SELECT 
+                COALESCE(SUM(total_biaya), 0) as total_pendapatan
+            FROM reservasi 
+            WHERE status = 'checkout' AND YEAR(updated_at) = YEAR(CURDATE())
+        ");
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

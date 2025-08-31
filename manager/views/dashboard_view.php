@@ -1,6 +1,6 @@
 <?php
 // manajer/views/dashboard_view.php
-global $page_title, $todays_revenue, $recent_transactions;
+global $page_title, $todays_revenue, $recent_transactions, $staff_list;
 ?>
 
 <div class="row mb-4">
@@ -56,31 +56,29 @@ global $page_title, $todays_revenue, $recent_transactions;
     <div class="col-12">
         <div class="content-card">
             <div class="card-header p-4">
-                <h5 class="mb-0">10 Transaksi Terakhir (Checkout)</h5>
+                <h5 class="mb-0">Manajemen Pegawai</h5>
             </div>
             <div class="card-body">
                 <div class="table-responsive ps-3">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Tanggal Checkout</th>
-                                <th>Nama Tamu</th>
-                                <th>No. Kamar</th>
-                                <th>Total Bayar</th>
+                                <th>Nama</th>
+                                <th>Jabatan</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($recent_transactions)): ?>
+                            <?php if (empty($staff_list)): ?>
                                 <tr>
-                                    <td colspan="4" class="text-center">Belum ada transaksi yang selesai.</td>
+                                    <td colspan="3" class="text-center">Tidak ada data pegawai.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($recent_transactions as $trx): ?>
+                                <?php foreach ($staff_list as $staff): ?>
                                     <tr>
-                                        <td><?php echo formatTanggalIndonesia($trx['tanggal_checkout']); ?></td>
-                                        <td><strong><?php echo htmlspecialchars($trx['nama_tamu']); ?></strong></td>
-                                        <td><?php echo htmlspecialchars($trx['no_kamar']); ?></td>
-                                        <td><?php echo formatRupiah($trx['total_biaya']); ?></td>
+                                        <td><strong><?php echo htmlspecialchars($staff['nama']); ?></strong></td>
+                                        <td><?php echo htmlspecialchars($staff['jabatan']); ?></td>
+                                        <td><?php echo getStatusBadge($staff['status']); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>

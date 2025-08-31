@@ -13,6 +13,9 @@ $page_title = 'Laporan';
 
 // Ambil data dari model
 $todays_revenue = $reportModel->getTodaysRevenue();
+$weekly_revenue = $reportModel->getWeeklyRevenue();
+$monthly_revenue = $reportModel->getMonthlyRevenue();
+$yearly_revenue = $reportModel->getYearlyRevenue();
 $recent_transactions = $reportModel->getRecentTransactions();
 
 // Panggil layout utama

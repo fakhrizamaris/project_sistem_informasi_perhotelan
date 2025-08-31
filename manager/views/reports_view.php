@@ -1,7 +1,6 @@
 <?php
 // manajer/views/reports_view.php
-// (Konten disalin dari admin/views/reports_view.php)
-global $page_title, $todays_revenue, $recent_transactions;
+global $page_title, $todays_revenue, $weekly_revenue, $monthly_revenue, $yearly_revenue, $recent_transactions;
 ?>
 
 <div class="row mb-4">
@@ -12,7 +11,7 @@ global $page_title, $todays_revenue, $recent_transactions;
 </div>
 
 <div class="row mb-4">
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
@@ -29,18 +28,52 @@ global $page_title, $todays_revenue, $recent_transactions;
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Transaksi Selesai Hari Ini</div>
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pendapatan Minggu Ini</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            <?php echo $todays_revenue['jumlah_transaksi']; ?> Transaksi
+                            <?php echo formatRupiah($weekly_revenue['total_pendapatan']); ?>
                         </div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-receipt fa-2x text-gray-300"></i>
+                        <i class="fas fa-calendar-week fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pendapatan Bulan Ini</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            <?php echo formatRupiah($monthly_revenue['total_pendapatan']); ?>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pendapatan Tahun Ini</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            <?php echo formatRupiah($yearly_revenue['total_pendapatan']); ?>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>
