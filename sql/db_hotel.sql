@@ -59,15 +59,7 @@ CREATE TABLE `pegawai` (
   `jabatan` varchar(50) NOT NULL,
   `status` enum('aktif','non_aktif') DEFAULT 'aktif',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pegawai`
---
-
-INSERT INTO `pegawai` (`id_pegawai`, `id_user`, `nama`, `jabatan`, `status`, `created_at`) VALUES
-(4, NULL, 'Admin Utama', 'admin', 'aktif', '2025-08-28 16:06:56'),
-(6, NULL, 'Fakhri Djamaris', 'resepsionis', 'aktif', '2025-08-28 16:06:56');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -84,16 +76,7 @@ CREATE TABLE `pembayaran` (
   `bukti_pembayaran` varchar(255) DEFAULT NULL,
   `tgl_bayar` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pembayaran`
---
-
-INSERT INTO `pembayaran` (`id_pembayaran`, `id_reservasi`, `metode`, `jumlah`, `status`, `bukti_pembayaran`, `tgl_bayar`, `created_at`) VALUES
-(1, 6, 'transfer', 1000000.00, 'pending', '68b014bb0d32c-meme.png', '2025-08-28 15:35:07', '2025-08-28 08:35:07'),
-(2, 6, 'transfer', 1000000.00, 'pending', '68b014ccd32cf-image rpl.jpg', '2025-08-28 15:35:24', '2025-08-28 08:35:24'),
-(3, 6, 'transfer', 1000000.00, 'pending', '68b014dd58d26-image rpl.jpg', '2025-08-28 15:35:41', '2025-08-28 08:35:41');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
