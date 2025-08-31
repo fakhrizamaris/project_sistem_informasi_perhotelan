@@ -2,14 +2,13 @@
 // login.php
 session_start();
 
-// Jika sudah login, redirect ke dashboard sesuai role
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-    if ($_SESSION['role'] === 'admin') {
+    if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'resepsionis') {
         header('Location: admin/dashboard.php');
     } elseif ($_SESSION['role'] === 'tamu') {
         header('Location: tamu/dashboardtamu.php');
-    } else {
-        header('Location: admin/dashboard.php'); // Default untuk role lain
+    } elseif ($_SESSION['role'] === 'manajer') {
+        header('Location: manager/dashboard.php'); // DIARAHKAN KE FOLDER BARU
     }
     exit;
 }
@@ -24,13 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (Auth::login($username, $password)) {
-        // Redirect berdasarkan role setelah login berhasil
-        if ($_SESSION['role'] === 'admin') {
+        if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'resepsionis') {
             header('Location: admin/dashboard.php');
         } elseif ($_SESSION['role'] === 'tamu') {
             header('Location: tamu/dashboardtamu.php');
-        } else {
-            header('Location: admin/dashboard.php'); // Default
+        } elseif ($_SESSION['role'] === 'manajer') {
+            header('Location: manajer/dashboard.php');
         }
         exit;
     } else {
