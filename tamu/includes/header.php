@@ -11,16 +11,21 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($page_title) ? $page_title : 'Dashboard Manajer'; ?> - Hotel System</title>
+    <title><?php echo isset($page_title) ? $page_title : 'Dashboard Tamu'; ?> - Hotel System</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
+    <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
+    <!-- Sweet Alert -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 
+    <!-- Custom CSS untuk Tamu -->
     <style>
         :root {
             --primary-color: #1e88e5;
@@ -275,29 +280,44 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 </head>
 
 <body>
+    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo">
                 <i class="fas fa-hotel"></i>
                 <div class="logo-text">
                     <h5 class="text-white mb-0">Hotel System</h5>
-                    <small class="text-light opacity-75">Portal Manajer</small>
+                    <small class="text-light opacity-75">Portal Tamu</small>
                 </div>
             </div>
         </div>
 
         <div class="sidebar-menu">
             <div class="menu-item">
-                <a href="dashboard.php" class="menu-link <?php echo $current_page == 'dashboard' ? 'active' : ''; ?>">
+                <a href="dashboardtamu.php" class="menu-link <?php echo $current_page == 'dashboard' ? 'active' : ''; ?>">
                     <i class="fas fa-tachometer-alt"></i>
                     <span class="menu-text">Dashboard</span>
                 </a>
             </div>
 
             <div class="menu-item">
-                <a href="reports.php" class="menu-link <?php echo $current_page == 'reports' ? 'active' : ''; ?>">
-                    <i class="fas fa-chart-line"></i>
-                    <span class="menu-text">Laporan</span>
+                <a href="booking.php" class="menu-link <?php echo $current_page == 'booking' ? 'active' : ''; ?>">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="menu-text">Booking Kamar</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="reservasi.php" class="menu-link <?php echo $current_page == 'reservasi' ? 'active' : ''; ?>">
+                    <i class="fas fa-calendar-check"></i>
+                    <span class="menu-text">Reservasi Saya</span>
+                </a>
+            </div>
+
+            <div class="menu-item">
+                <a href="profile.php" class="menu-link <?php echo $current_page == 'profile' ? 'active' : ''; ?>">
+                    <i class="fas fa-user"></i>
+                    <span class="menu-text">Profil Saya</span>
                 </a>
             </div>
 
@@ -312,7 +332,9 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="main-content" id="mainContent">
+        <!-- Top Navigation -->
         <nav class="top-navbar">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
@@ -320,7 +342,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         <i class="fas fa-bars"></i>
                     </button>
                     <h4 class="navbar-brand mb-0">
-                        <?php echo isset($page_title) ? $page_title : 'Dashboard Manajer'; ?>
+                        <?php echo isset($page_title) ? $page_title : 'Dashboard Tamu'; ?>
                     </h4>
                 </div>
 
@@ -333,6 +355,14 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
+                                <a class="dropdown-item" href="profile.php">
+                                    <i class="fas fa-user me-2"></i>Profil
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
                                 <a class="dropdown-item text-danger" href="../logout.php"
                                     onclick="return confirm('Yakin ingin logout?')">
                                     <i class="fas fa-sign-out-alt me-2"></i>Logout
@@ -344,6 +374,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </div>
         </nav>
 
+        <!-- Page Content -->
         <div class="container-fluid px-4">
             <?php
             // Tampilkan alert jika ada
