@@ -40,7 +40,7 @@
       font-family: cursive;
       margin-left: 10px;
     }
-    
+
     .navbar .nav-link {
       color: #A69C67 !important;
       font-weight: 600;
@@ -55,9 +55,11 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      padding-top: 130px; /* top-bar + navbar */
+      padding-top: 130px;
+      /* top-bar + navbar */
       background: #f8f8f8;
     }
+
     /* Reset */
     * {
       margin: 0;
@@ -150,7 +152,8 @@
     }
 
     .footer-social a:hover {
-      color: #FFD700; /* efek hover emas */
+      color: #FFD700;
+      /* efek hover emas */
     }
 
     .footer-bottom {
@@ -160,18 +163,20 @@
       font-size: 14px;
       color: #aaa;
     }
-    .navbar {
-  padding-top: 0.1rem;
-  padding-bottom: 0.1rem;
-}
 
-/* Perkecil jarak antar menu */
-.navbar-nav .nav-link {
-  padding-top: 0.1rem;
-  padding-bottom: 0.1rem;
-  font-size: 0.95rem; /* biar lebih compact */
-}
-</style>
+    .navbar {
+      padding-top: 0.1rem;
+      padding-bottom: 0.1rem;
+    }
+
+    /* Perkecil jarak antar menu */
+    .navbar-nav .nav-link {
+      padding-top: 0.1rem;
+      padding-bottom: 0.1rem;
+      font-size: 0.95rem;
+      /* biar lebih compact */
+    }
+  </style>
 </head>
 
 <body>
@@ -200,59 +205,32 @@
   </header>
 
   <section class="bg-light py-5 text-center">
-        <div class="container">
-            <section id="home">
-                <h1 class="display-4" style="font-family: Poppins;">Hi, Welcome to Tourism Hotel</h1>
-            </section>
-            <br>
-            <p style="font-family: lora; font-size: 18px;">Welcome to Tourism Hotel where you can find a big Experience Exceptional Hospitality.
-                Nestled in the heart of the city, our hotel offers a perfect blend of comfort, elegance, and
-                personalized service. Whether you're here for business or leisure, we invite you to relax, unwind, and
-                enjoy an unforgettable stay with us.</p>
-        </div>
-        <hr>
-        <div class="container text-center">
-            <h1 class="display-4" style="font-family: Poppins;">Our History</h1>
-            <img src="img/sejarah.jpg" width="500 px">
-            <br>
-            <br>
-            <p style="font-family: lora; font-size: 18px; text-align: center;">Hotel Tourism was established in 1985 as a modest family-run inn. Located in the heart of the city, the hotel initially offered only 10 rooms and served local travelers visiting for business or leisure.</p>
-            <br>
-            <p style="font-family: lora; font-size: 18px; text-align: center;">As the city grew and tourism flourished, Hotel Tourism began undergoing a series of improvements. In 2000, a major renovation was carried out to expand the number of rooms and upgrade public facilities, including a restaurant and meeting rooms.</p>
-            <br>
-            <p style="font-family: lora; font-size: 18px; text-align: center;">Today, Hotel Tourism has evolved into one of the city’s most popular hotels, offering more than 100 rooms, modern facilities, and service that continues to reflect the warmth of its family heritage. Our commitment is to preserve this legacy while constantly innovating to provide the best experience for every guest.</p>
-        </div>
-    </section>
-
-<footer class="footer">
-    <div class="footer-container">
-      <!-- Brand -->
-      <div class="footer-brand">
-        <h2>Tourism Hotel</h2>
-        <p>Stay • Explore • Enjoy</p>
-      </div>
-
-      <!-- Social Media -->
-      <div class="footer-social">
-        <a href="https://www.instagram.com/" target="_blank">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.facebook.com/" target="_blank">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://wa.me/628123456789" target="_blank">
-          <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="mailto:info@tourismhotel.com" target="_blank">
-          <i class="fas fa-envelope"></i>
-        </a>
-      </div>
+    <div class="container">
+      <section id="home">
+        <h1 class="display-4" style="font-family: Poppins;">Hi, Welcome to Tourism Hotel</h1>
+      </section>
+      <br>
+      <p style="font-family: lora; font-size: 18px;">Welcome to Tourism Hotel where you can find a big Experience Exceptional Hospitality.
+        Nestled in the heart of the city, our hotel offers a perfect blend of comfort, elegance, and
+        personalized service. Whether you're here for business or leisure, we invite you to relax, unwind, and
+        enjoy an unforgettable stay with us.</p>
     </div>
-
-    <div class="footer-bottom">
-      <p>&copy; 2025 Tourism Hotel. All rights reserved.</p>
+    <hr>
+    <div class="container text-center">
+      <h1 class="display-4" style="font-family: Poppins;">Our History</h1>
+      <img src="img/sejarah.jpg" width="500 px">
+      <br>
+      <br>
+      <p style="font-family: lora; font-size: 18px; text-align: center;">Hotel Tourism was established in 1985 as a modest family-run inn. Located in the heart of the city, the hotel initially offered only 10 rooms and served local travelers visiting for business or leisure.</p>
+      <br>
+      <p style="font-family: lora; font-size: 18px; text-align: center;">As the city grew and tourism flourished, Hotel Tourism began undergoing a series of improvements. In 2000, a major renovation was carried out to expand the number of rooms and upgrade public facilities, including a restaurant and meeting rooms.</p>
+      <br>
+      <p style="font-family: lora; font-size: 18px; text-align: center;">Today, Hotel Tourism has evolved into one of the city’s most popular hotels, offering more than 100 rooms, modern facilities, and service that continues to reflect the warmth of its family heritage. Our commitment is to preserve this legacy while constantly innovating to provide the best experience for every guest.</p>
     </div>
-  </footer>
+  </section>
+
+
+  <?php include 'includes/footer.php'; ?>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

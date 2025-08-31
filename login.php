@@ -2,15 +2,18 @@
 // login.php
 session_start();
 
+// Cek jika sudah login, arahkan ke dashboard
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
-    if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'resepsionis') {
-        header('Location: admin/dashboard.php');
-    } elseif ($_SESSION['role'] === 'tamu') {
-        header('Location: tamu/dashboardtamu.php');
-    } elseif ($_SESSION['role'] === 'manajer') {
-        header('Location: manager/dashboard.php'); // DIARAHKAN KE FOLDER BARU
+    $role_dashboard_map = [
+        'admin' => 'admin/dashboard.php',
+        'resepsionis' => 'admin/dashboard.php',
+        'tamu' => 'tamu/dashboardtamu.php',
+        'manajer' => 'manager/dashboard.php'
+    ];
+    if (isset($role_dashboard_map[$_SESSION['role']])) {
+        header('Location: ' . $role_dashboard_map[$_SESSION['role']]);
+        exit;
     }
-    exit;
 }
 
 require_once 'config/koneksi.php';
@@ -23,18 +26,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (Auth::login($username, $password)) {
-        if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'resepsionis') {
-            header('Location: admin/dashboard.php');
-        } elseif ($_SESSION['role'] === 'tamu') {
-            header('Location: tamu/dashboardtamu.php');
-        } elseif ($_SESSION['role'] === 'manajer') {
-            header('Location: manager/dashboard.php');
+        // --- LOGIKA BARU UNTUK REDIRECT ---
+        if (isset($_GET['redirect']) && !empty($_GET['redirect'])) {
+            // Jika ada parameter redirect, arahkan ke sana
+            // Pastikan user adalah tamu untuk redirect booking
+            if ($_SESSION['role'] === 'tamu') {
+                header('Location: ' . urldecode($_GET['redirect']));
+                exit;
+            }
         }
-        exit;
+
+        // --- LOGIKA LAMA (DEFAULT) ---
+        $role_dashboard_map = [
+            'admin' => 'admin/dashboard.php',
+            'resepsionis' => 'admin/dashboard.php',
+            'tamu' => 'tamu/dashboardtamu.php',
+            'manajer' => 'manager/dashboard.php'
+        ];
+        if (isset($role_dashboard_map[$_SESSION['role']])) {
+            header('Location: ' . $role_dashboard_map[$_SESSION['role']]);
+            exit;
+        }
     } else {
         $error_message = 'Username atau password salah!';
     }
 }
+
+// Bagian HTML dari login.php tetap sama
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: #fff;
+            background: #f8f9fa;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -62,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .login-header {
-            background: linear-gradient(135deg, #817211ff 0%, #d9c409ff 100%);
+            background: linear-gradient(135deg, #012A2A 0%, #A69C67 100%);
             color: white;
             text-align: center;
             padding: 2rem 1rem;
@@ -73,28 +91,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .form-floating>.form-control {
-            border: 2px solid #e9ecef;
             border-radius: 10px;
         }
 
         .form-floating>.form-control:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            border-color: #A69C67;
+            box-shadow: 0 0 0 0.2rem rgba(166, 156, 103, 0.25);
         }
 
         .btn-login {
-            background: linear-gradient(135deg, #752828ff 0%, #d5c853ff 100%);
+            background: linear-gradient(135deg, #012A2A 0%, #A69C67 100%);
             border: none;
             border-radius: 10px;
             padding: 12px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -102,27 +116,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-12 col-lg-5">
-                <div class="login-card mt-2">
+            <div class="col-md-10 col-lg-5">
+                <div class="login-card">
                     <div class="login-header">
-
-                        <h3 class="mb-0">Hotel System</h3>
-                        <p class="mb-0 opacity-75">Masuk ke Akun Anda</p>
+                        <h3 class="mb-0">Tourism Hotel</h3>
+                        <p class="mb-0 opacity-75">Silakan Masuk Untuk Memesan</p>
                     </div>
-
                     <div class="login-body">
                         <?php if (!empty($error_message)): ?>
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <?php echo $error_message; ?>
-                            </div>
+                            <div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i><?php echo $error_message; ?></div>
                         <?php endif; ?>
-
                         <?php if (isset($_GET['error'])): ?>
-                            <div class="alert alert-warning" role="alert">
-                                <i class="fas fa-info-circle me-2"></i>
-                                <?php echo htmlspecialchars($_GET['error']); ?>
-                            </div>
+                            <div class="alert alert-warning"><i class="fas fa-info-circle me-2"></i><?php echo htmlspecialchars($_GET['error']); ?></div>
                         <?php endif; ?>
 
                         <form method="POST">
@@ -130,31 +135,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
                                 <label for="username"><i class="fas fa-user me-2"></i>Username</label>
                             </div>
-
                             <div class="form-floating mb-4">
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                                 <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
                             </div>
-
-                            <button type="submit" class="btn btn-primary btn-login w-100 mb-3">
-                                <i class="fas fa-sign-in-alt me-2"></i>Masuk
-                            </button>
+                            <button type="submit" class="btn btn-primary btn-login w-100 mb-3 text-white">Masuk</button>
                         </form>
-
                         <div class="text-center">
                             <small class="text-muted">
-                                Belum punya akun? Hubungi administrator hotel untuk mendaftar.
+                                Belum punya akun?
+                                <a href="register.php<?php echo isset($_GET['redirect']) ? '?redirect=' . htmlspecialchars($_GET['redirect']) : ''; ?>">
+                                    Daftar di sini
+                                </a>
                             </small>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

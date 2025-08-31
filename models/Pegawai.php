@@ -10,7 +10,13 @@ class Pegawai
         $this->db = getDB();
     }
 
-    // --- FUNGSI UNTUK STAFF ---
+    // =================================================================
+    // FUNGSI UNTUK MENGELOLA STAFF (ADMIN, RESEPSIONIS, MANAJER)
+    // =================================================================
+
+    /**
+     * Mengambil semua data pegawai/staff beserta informasi login mereka.
+     */
     public function getAll()
     {
         $stmt = $this->db->query("SELECT p.*, u.username, u.role 
@@ -20,76 +26,9 @@ class Pegawai
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllUsers()
-    {
-        $stmt = $this->db->query("SELECT id_user, username, nama, role FROM users ORDER BY nama ASC");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function createUser($data)
-    {
-        try {
-            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-            $stmt = $this->db->prepare("INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)");
-            return $stmt->execute([
-                $data['username'],
-                $hashedPassword,
-                $data['nama'],
-                $data['role']
-            ]);
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-
     /**
-     * Mengupdate data user
+     * Mengambil data pegawai tunggal berdasarkan ID pegawai.
      */
-    public function updateUser($id, $data)
-    {
-        try {
-            if (!empty($data['password'])) {
-                $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-                $stmt = $this->db->prepare("UPDATE users SET username = ?, nama = ?, role = ?, password = ? WHERE id_user = ?");
-                $stmt->execute([$data['username'], $data['nama'], $data['role'], $hashedPassword, $id]);
-            } else {
-                $stmt = $this->db->prepare("UPDATE users SET username = ?, nama = ?, role = ? WHERE id_user = ?");
-                $stmt->execute([$data['username'], $data['nama'], $data['role'], $id]);
-            }
-            return true;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Menghapus user
-     */
-    public function deleteUser($id)
-    {
-        // Pencegahan agar tidak bisa menghapus diri sendiri
-        if (isset($_SESSION['user_id']) && $id == $_SESSION['user_id']) {
-            return false;
-        }
-
-        try {
-            $stmt = $this->db->prepare("DELETE FROM users WHERE id_user = ?");
-            return $stmt->execute([$id]);
-        } catch (PDOException $e) {
-            // Gagal hapus jika user terhubung dengan data lain (misal: pegawai atau tamu)
-            return false;
-        }
-    }
-
-    /**
-     * Mengambil data user berdasarkan ID
-     */
-    public function getUserById($id)
-    {
-        $stmt = $this->db->prepare("SELECT id_user, username, nama, role FROM users WHERE id_user = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
     public function getById($id)
     {
         $stmt = $this->db->prepare("SELECT p.*, u.username, u.role 
@@ -100,22 +39,21 @@ class Pegawai
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
+    /**
+     * Membuat data pegawai baru beserta akun user-nya.
+     */
     public function create($data)
     {
         try {
             $this->db->beginTransaction();
 
-            // Insert ke tabel users jika ada data login
-            $userId = null;
-            if (!empty($data['username']) && !empty($data['password'])) {
-                $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-                $stmtUser = $this->db->prepare("INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)");
-                $stmtUser->execute([$data['username'], $hashedPassword, $data['nama'], $data['role']]);
-                $userId = $this->db->lastInsertId();
-            }
+            // 1. Buat akun di tabel 'users' terlebih dahulu
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+            $stmtUser = $this->db->prepare("INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)");
+            $stmtUser->execute([$data['username'], $hashedPassword, $data['nama'], $data['role']]);
+            $userId = $this->db->lastInsertId();
 
-            // Insert ke tabel pegawai
+            // 2. Buat data di tabel 'pegawai' yang terhubung dengan user ID
             $stmt = $this->db->prepare("INSERT INTO pegawai (id_user, nama, jabatan, status) VALUES (?, ?, ?, ?)");
             $stmt->execute([
                 $userId,
@@ -128,23 +66,28 @@ class Pegawai
             return true;
         } catch (PDOException $e) {
             $this->db->rollBack();
+            // Log error untuk debugging
             error_log("Error creating pegawai: " . $e->getMessage());
             return false;
         }
     }
 
+    /**
+     * Mengupdate data pegawai dan akun user-nya.
+     */
     public function update($id, $data)
     {
         try {
             $this->db->beginTransaction();
 
-            // Update tabel pegawai
+            // 1. Update tabel 'pegawai'
             $stmt = $this->db->prepare("UPDATE pegawai SET nama = ?, jabatan = ?, status = ? WHERE id_pegawai = ?");
             $stmt->execute([$data['nama'], $data['jabatan'], $data['status'], $id]);
 
-            // Update tabel users jika ada id_user
+            // 2. Ambil ID user dari pegawai yang diupdate
             $pegawai = $this->getById($id);
             if ($pegawai['id_user']) {
+                // 3. Update tabel 'users'
                 if (!empty($data['password'])) {
                     $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
                     $stmtUser = $this->db->prepare("UPDATE users SET username = ?, nama = ?, role = ?, password = ? WHERE id_user = ?");
@@ -164,22 +107,24 @@ class Pegawai
         }
     }
 
+    /**
+     * Menghapus data pegawai beserta akun user-nya.
+     */
     public function delete($id)
     {
         try {
             $this->db->beginTransaction();
 
-            // Ambil data pegawai
             $pegawai = $this->getById($id);
 
-            // Hapus pegawai
+            // 1. Hapus dari tabel 'pegawai'
             $stmt = $this->db->prepare("DELETE FROM pegawai WHERE id_pegawai = ?");
             $stmt->execute([$id]);
 
-            // Hapus user jika ada
-            if ($pegawai['id_user']) {
-                $stmt = $this->db->prepare("DELETE FROM users WHERE id_user = ?");
-                $stmt->execute([$pegawai['id_user']]);
+            // 2. Hapus dari tabel 'users' jika terhubung
+            if ($pegawai && $pegawai['id_user']) {
+                $stmtUser = $this->db->prepare("DELETE FROM users WHERE id_user = ?");
+                $stmtUser->execute([$pegawai['id_user']]);
             }
 
             $this->db->commit();
@@ -191,42 +136,27 @@ class Pegawai
         }
     }
 
-    // --- FUNGSI UNTUK USER TAMU ---
-    public function getAllGuestUsers()
-    {
-        $stmt = $this->db->query("SELECT u.id_user, u.username, u.nama, t.no_identitas, t.no_hp, t.email 
-                                 FROM users u 
-                                 LEFT JOIN tamu t ON u.id_user = t.id_user 
-                                 WHERE u.role = 'tamu' ORDER BY u.nama ASC");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
 
-    public function getGuestUserById($id)
-    {
-        $stmt = $this->db->prepare("SELECT u.id_user, u.username, u.nama, t.no_identitas, t.no_hp, t.email, t.alamat
-                                   FROM users u 
-                                   LEFT JOIN tamu t ON u.id_user = t.id_user 
-                                   WHERE u.id_user = ? AND u.role = 'tamu'");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    // =================================================================
+    // FUNGSI UNTUK MENGELOLA USER TAMU (DARI REGISTRASI)
+    // =================================================================
 
+    /**
+     * Membuat akun user tamu dan profilnya sekaligus.
+     * Digunakan oleh halaman register.php.
+     */
     public function createGuestUserAndProfile($data)
     {
         try {
             $this->db->beginTransaction();
 
-            // Hash password
+            // 1. Buat akun di tabel 'users' dengan role 'tamu'
             $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-
-            // Insert ke tabel users
             $stmtUser = $this->db->prepare("INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, 'tamu')");
             $stmtUser->execute([$data['username'], $hashedPassword, $data['nama']]);
-
-            // Ambil ID user yang baru saja dibuat
             $userId = $this->db->lastInsertId();
 
-            // Insert ke tabel tamu
+            // 2. Buat profil di tabel 'tamu' yang terhubung dengan user ID
             $stmtTamu = $this->db->prepare("INSERT INTO tamu (id_user, nama, no_identitas, no_hp, email, alamat) VALUES (?, ?, ?, ?, ?, '')");
             $stmtTamu->execute([$userId, $data['nama'], $data['no_identitas'], $data['no_hp'], $data['email']]);
 
@@ -234,114 +164,53 @@ class Pegawai
             return true;
         } catch (PDOException $e) {
             $this->db->rollBack();
-            // Log error untuk debugging
             error_log("Error creating guest user: " . $e->getMessage());
             return false;
         }
     }
 
-    public function updateGuestUser($id, $data)
-    {
-        try {
-            $this->db->beginTransaction();
+    // ... (Anda bisa menambahkan fungsi update dan delete untuk user tamu jika diperlukan di masa depan)
 
-            // Update tabel users
-            if (!empty($data['password'])) {
-                $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
-                $stmtUser = $this->db->prepare("UPDATE users SET username = ?, nama = ?, password = ? WHERE id_user = ?");
-                $stmtUser->execute([$data['username'], $data['nama'], $hashedPassword, $id]);
-            } else {
-                $stmtUser = $this->db->prepare("UPDATE users SET username = ?, nama = ? WHERE id_user = ?");
-                $stmtUser->execute([$data['username'], $data['nama'], $id]);
-            }
 
-            // Cek apakah record tamu sudah ada
-            $checkTamu = $this->db->prepare("SELECT id_tamu FROM tamu WHERE id_user = ?");
-            $checkTamu->execute([$id]);
+    // =================================================================
+    // FUNGSI VALIDASI & HELPER
+    // =================================================================
 
-            if ($checkTamu->fetch()) {
-                // Update record yang sudah ada
-                $stmtTamu = $this->db->prepare("UPDATE tamu SET nama = ?, no_identitas = ?, no_hp = ?, email = ? WHERE id_user = ?");
-                $stmtTamu->execute([$data['nama'], $data['no_identitas'], $data['no_hp'], $data['email'], $id]);
-            } else {
-                // Insert record baru jika belum ada
-                $stmtTamu = $this->db->prepare("INSERT INTO tamu (id_user, nama, no_identitas, no_hp, email, alamat) VALUES (?, ?, ?, ?, ?, '')");
-                $stmtTamu->execute([$id, $data['nama'], $data['no_identitas'], $data['no_hp'], $data['email']]);
-            }
-
-            $this->db->commit();
-            return true;
-        } catch (PDOException $e) {
-            $this->db->rollBack();
-            // Log error untuk debugging
-            error_log("Error updating guest user: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    public function deleteGuestUser($id)
-    {
-        // Cek dulu apakah user tamu punya reservasi aktif
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM reservasi r JOIN tamu t ON r.id_tamu = t.id_tamu WHERE t.id_user = ? AND r.status NOT IN ('checkout', 'cancelled')");
-        $stmt->execute([$id]);
-        if ($stmt->fetchColumn() > 0) {
-            return false; // Gagal hapus jika ada reservasi aktif
-        }
-
-        try {
-            $this->db->beginTransaction();
-
-            // Hapus dari tabel anak (pembayaran, reservasi, tamu) terlebih dahulu
-            $stmt = $this->db->prepare("DELETE p FROM pembayaran p 
-                                       JOIN reservasi r ON p.id_reservasi = r.id_reservasi 
-                                       JOIN tamu t ON r.id_tamu = t.id_tamu 
-                                       WHERE t.id_user = ?");
-            $stmt->execute([$id]);
-
-            $stmt = $this->db->prepare("DELETE r FROM reservasi r 
-                                       JOIN tamu t ON r.id_tamu = t.id_tamu 
-                                       WHERE t.id_user = ?");
-            $stmt->execute([$id]);
-
-            $stmt = $this->db->prepare("DELETE FROM tamu WHERE id_user = ?");
-            $stmt->execute([$id]);
-
-            // Terakhir hapus dari tabel induk (users)
-            $stmt = $this->db->prepare("DELETE FROM users WHERE id_user = ?");
-            $stmt->execute([$id]);
-
-            $this->db->commit();
-            return true;
-        } catch (PDOException $e) {
-            $this->db->rollBack();
-            error_log("Error deleting guest user: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    // Fungsi helper untuk validasi username unik
+    /**
+     * Mengecek apakah sebuah username sudah ada di database.
+     * $excludeUserId digunakan saat update agar tidak mendeteksi username milik sendiri.
+     */
     public function isUsernameExists($username, $excludeUserId = null)
     {
+        $sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        $params = [$username];
+
         if ($excludeUserId) {
-            $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ? AND id_user != ?");
-            $stmt->execute([$username, $excludeUserId]);
-        } else {
-            $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
-            $stmt->execute([$username]);
+            $sql .= " AND id_user != ?";
+            $params[] = $excludeUserId;
         }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchColumn() > 0;
     }
 
-    // Fungsi helper untuk validasi no_identitas unik
+    /**
+     * Mengecek apakah nomor identitas sudah ada di database.
+     * $excludeUserId digunakan saat update agar tidak mendeteksi no_identitas milik sendiri.
+     */
     public function isIdentityNumberExists($noIdentitas, $excludeUserId = null)
     {
+        $sql = "SELECT COUNT(*) FROM tamu WHERE no_identitas = ?";
+        $params = [$noIdentitas];
+
         if ($excludeUserId) {
-            $stmt = $this->db->prepare("SELECT COUNT(*) FROM tamu WHERE no_identitas = ? AND id_user != ?");
-            $stmt->execute([$noIdentitas, $excludeUserId]);
-        } else {
-            $stmt = $this->db->prepare("SELECT COUNT(*) FROM tamu WHERE no_identitas = ?");
-            $stmt->execute([$noIdentitas]);
+            $sql .= " AND id_user != ?";
+            $params[] = $excludeUserId;
         }
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
         return $stmt->fetchColumn() > 0;
     }
 }

@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Ambil semua data untuk ditampilkan di tabel
 $rooms = $roomModel->getAll();
-$stats = $roomModel->getStats();
+$stats = $roomModel->getRoomStatistics();
 
 // Panggil layout utama
 require_once __DIR__ . '/../includes/layout.php';
