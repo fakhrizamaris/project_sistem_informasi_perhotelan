@@ -1,7 +1,7 @@
 <?php
 // public/booknow.php
-require_once __DIR__ . '/../config/koneksi.php';
-require_once __DIR__ . '/../tamu/includes/functions.php'; // Menggunakan functions dari /tamu
+require_once __DIR__ . 'config/koneksi.php';
+require_once __DIR__ . 'tamu/includes/functions.php'; // Menggunakan functions dari /tamu
 
 $search_performed = false;
 $available_rooms = [];

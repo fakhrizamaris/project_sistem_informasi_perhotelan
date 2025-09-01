@@ -1,9 +1,9 @@
 <?php
 // public/invoice.php
 session_start();
-require_once __DIR__ . '/../config/koneksi.php';
-require_once __DIR__ . '/../admin/includes/functions.php';
-require_once __DIR__ . '/../models/Reservation.php';
+require_once __DIR__ . 'config/koneksi.php';
+require_once __DIR__ . 'admin/includes/functions.php';
+require_once __DIR__ . 'models/Reservation.php';
 
 if (!isset($_GET['id'])) {
     die("ID Reservasi tidak ditemukan.");

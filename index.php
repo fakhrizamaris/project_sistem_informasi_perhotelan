@@ -1,4 +1,4 @@
-<?php include 'includes/header.php'; ?>
+<?php include 'public/includes/header.php'; ?>
 
 <div id="hotelCarousel" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-indicators">
@@ -144,4 +144,4 @@
   </div>
 </section>
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'public/includes/footer.php'; ?>
