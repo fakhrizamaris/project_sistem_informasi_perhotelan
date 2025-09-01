@@ -265,7 +265,7 @@
     <header class="site-header">
         <div class="top-bar" style="background-color: #012A2A">
             <div class="logo">
-                <img src="img/logo.png" alt="Tourism Hotel Logo">
+                <img src="public/img/logo.png" alt="Tourism Hotel Logo">
                 <span class="logo-text">Stay-Explore-Enjoy</span>
             </div>
         </div>
@@ -278,8 +278,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" style="font-weight: font-family: georgia bold; font-size: 20px;" href="about.php">About</a></li>
-          <li class="nav-item"><a class="nav-link" style="font-weight: font-family: georgia bold; font-size: 20px;" href="index.php">Home</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-weight: bold; font-family: georgia; font-size: 20px;" href="about.php">About</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-weight: bold; font-family: georgia; font-size: 20px;" href="index.php">Home</a></li>
         </ul>
       </div>
     </div>
@@ -288,7 +288,7 @@
 
     <section class="suite-section">
         <div class="suite-image">
-            <img src="img/executive.jpg" alt="Suite Room">
+            <img src="public/img/executive.jpg" alt="Suite Room">
         </div>
         <div class="suite-content">
             <h1>Deluxe</h1>

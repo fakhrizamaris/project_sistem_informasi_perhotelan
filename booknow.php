@@ -1,13 +1,15 @@
 <?php
 // public/booknow.php
-require_once __DIR__ . 'config/koneksi.php';
-require_once __DIR__ . 'tamu/includes/functions.php'; // Menggunakan functions dari /tamu
+// session_start(); // Pastikan session_start() ada di paling atas
+require_once 'config/koneksi.php';
+require_once 'tamu/includes/functions.php'; // Menggunakan functions dari /tamu
 
 $search_performed = false;
 $available_rooms = [];
-$checkin_date = '';
-$checkout_date = '';
 
+// === AWAL PERUBAHAN ===
+
+// 1. Proses data POST untuk redirect
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_rooms'])) {
   $checkin_date = sanitizeInput($_POST['checkin_date']);
   $checkout_date = sanitizeInput($_POST['checkout_date']);
@@ -15,22 +17,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_rooms'])) {
   $validation = validasiTanggalBooking($checkin_date, $checkout_date);
 
   if (!$validation['valid']) {
-    // Simpan pesan error di session untuk ditampilkan setelah redirect
-    session_start();
     setError($validation['message']);
     header('Location: booknow.php');
     exit;
   }
 
+  // Redirect ke halaman yang sama dengan parameter GET
+  header("Location: booknow.php?action=search&checkin_date=$checkin_date&checkout_date=$checkout_date");
+  exit;
+}
+
+// 2. Proses data GET untuk menampilkan hasil
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'search') {
+  $checkin_date = sanitizeInput($_GET['checkin_date']);
+  $checkout_date = sanitizeInput($_GET['checkout_date']);
+
   try {
     $db = getDB();
-    // Query untuk mencari kamar yang TIDAK terkonflik dengan tanggal yang dipilih
     $sql = "SELECT * FROM kamar WHERE status = 'kosong' AND id_kamar NOT IN (
                     SELECT id_kamar FROM reservasi 
                     WHERE status NOT IN ('cancelled', 'checkout')
-                    AND (
-                        (tgl_checkin < :checkout_date AND tgl_checkout > :checkin_date)
-                    )
+                    AND (tgl_checkin < :checkout_date AND tgl_checkout > :checkin_date)
                 ) ORDER BY harga ASC";
 
     $stmt = $db->prepare($sql);
@@ -40,13 +47,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_rooms'])) {
     ]);
     $available_rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $search_performed = true;
+
+    if (empty($available_rooms)) {
+      setWarning('Mohon maaf, tidak ada kamar yang tersedia untuk tanggal yang Anda pilih.');
+    }
   } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
   }
+} else {
+  // Set nilai default jika tidak ada pencarian
+  $checkin_date = '';
+  $checkout_date = '';
 }
 
-// Sertakan header
-include 'includes/header.php';
+// === AKHIR PERUBAHAN ===
+
+
+// Sertakan header, pastikan tidak ada output sebelum header()
+require_once 'public/includes/header.php';
 ?>
 
 <div class="container my-5">
@@ -94,8 +112,8 @@ include 'includes/header.php';
           <div class="col-md-6 col-lg-4">
             <div class="card h-100">
               <?php
-              $image_path = "img/" . strtolower($room['tipe_kamar']) . ".jpg";
-              $default_image = "img/deluxe.jpg";
+              $image_path = "public/img/" . strtolower($room['tipe_kamar']) . ".jpg";
+              $default_image = "public/img/deluxe.jpg";
               ?>
               <img src="<?php echo file_exists($image_path) ? $image_path : $default_image; ?>" class="card-img-top" alt="<?php echo htmlspecialchars($room['tipe_kamar']); ?>" style="height: 200px; object-fit: cover;">
               <div class="card-body d-flex flex-column">
@@ -108,7 +126,7 @@ include 'includes/header.php';
                   // Hapus "../" agar path menjadi relatif terhadap root folder
                   $redirect_url = urlencode("tamu/booking.php?action=select&room_id={$room['id_kamar']}&checkin={$checkin_date}&checkout={$checkout_date}");
                   ?>
-                  <a href="../login.php?redirect=<?php echo $redirect_url; ?>" class="btn btn-outline-dark w-100">
+                  <a href="login.php?redirect=<?php echo $redirect_url; ?>" class="btn btn-outline-dark w-100">
                     Pilih Kamar
                   </a>
                 </div>
@@ -123,5 +141,5 @@ include 'includes/header.php';
 
 <?php
 // Sertakan footer
-include 'includes/footer.php';
+include 'public/includes/footer.php';
 ?>

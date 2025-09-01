@@ -260,7 +260,7 @@
     <header class="site-header">
         <div class="top-bar" style="background-color: #012A2A">
             <div class="logo">
-                <img src="img/logo.png" alt="Tourism Hotel Logo">
+                <img src="public/img/logo.png" alt="Tourism Hotel Logo">
                 <span class="logo-text">Stay-Explore-Enjoy</span>
             </div>
         </div>
@@ -273,8 +273,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" style="font-weight: font-family: georgia bold; font-size: 20px;" href="about.php">About</a></li>
-          <li class="nav-item"><a class="nav-link" style="font-weight: font-family: georgia bold; font-size: 20px;" href="index.php">Home</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-weight:bold; font-family: georgia; font-size: 20px;" href="about.php">About</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-weight:bold; font-family: georgia; font-size: 20px;" href="index.php">Home</a></li>
         </ul>
       </div>
     </div>
@@ -294,50 +294,50 @@
             <main class="container border p-md-5 p-2">
             <div class="row g-2 g-md-4">
                 <div class="col-6 col-md-3">
-                    <img class="w-100" src="img/bar.jpg" style="height: 200px" alt="gambar design layout">
+                    <img class="w-100" src="public/img/bar.jpg" style="height: 200px" alt="gambar design layout">
                     <h6 style="font-family: lora"><i>Dining</i></h6>
                     <h5 style="font-family: georgia"><b>Restaurant and Bar</b></h5>
                     <p style="font-family: georgia">Tourism Hotel invites you to enjoy the culinary excellence with distinguished restaurant and a sophisticated bar with uique charm.
                 </div>
                 <div class="col-6 col-md-3">
-                    <img class="w-100" src="img/gym.jpg" style="height: 200px" alt="gambar design layout">
+                    <img class="w-100" src="public/img/gym.jpg" style="height: 200px" alt="gambar design layout">
                     <h6 style="font-family: lora"><i>Wellbeing</i></h6>
                     <h5 style="font-family: georgia"><b>Gym</b></h5>
                     <p style="font-family: georgia">overlooking unrivaled 360 degrees of of panoramic vista of jakarta, featuring one of the most expansive training space, which is exclusive for registered in house guwst only.</p>
                 </div>
                 <div class="col-6 col-md-3">
-                    <img class="w-100" src="img/lounge.jpg" style="height: 200px" alt="gambar design layout">
+                    <img class="w-100" src="public/img/lounge.jpg" style="height: 200px" alt="gambar design layout">
                     <h6 style="font-family: lora"><i>Dining</i></h6>
                     <h5 style="font-family: georgia"><b>Executive Lounge</b></h5>
                     <p style="font-family: georgia">Tourism hotel gives you executive lounge as a room for guests, and offering a distinguished selection of amenities and services for those who seek enhanced privacy and convenience.
                 </div>
                     <div class="col-6 col-md-3">
-                <img class="w-100" src="img/tenniscourt.jpg" style="height: 200px" alt="gambar design layout">
+                <img class="w-100" src="public/img/tenniscourt.jpg" style="height: 200px" alt="gambar design layout">
                 <h6 style="font-family: lora"><i>Wellbeing</i></h6>
                 <h5 style="font-family: georgia"><b>Tennis Court</b></h5>
                 <p style="font-family: georgia">two exclusive tennis courts are reserved for the registered in house guests. Offering an ideal setting to unwind.
                 </div>
                 <hr>
                 <div class="col-6 col-md-3">
-                    <img class="w-100" src="img/swimpool.jpg" style="height: 200px" alt="gambar design layout">
+                    <img class="w-100" src="public/img/swimpool.jpg" style="height: 200px" alt="gambar design layout">
                     <h6 style="font-family: lora"><i>Wellbeing</i></h6>
                     <h5 style="font-family: georgia"><b>Swimming Pool</b></h5>
                     <p style="font-family: georgia">After your workout, enjoy shoting drinks and light refreshments by the poolside. The olympic sized swimming pool is prefect for your regular exercise, unwiding from the daily routine, or simply relaxing on a sunbed, exclusively for registered in-house gusts.
                 </div>
                 <div class="col-6 col-md-3">
-                    <img class="w-100" src="img/seminarroom.jpg" style="height: 200px" alt="gambar design layout">
+                    <img class="w-100" src="public/img/seminarroom.jpg" style="height: 200px" alt="gambar design layout">
                     <h6 style="font-family: lora"><i>Activities</i></h6>
                     <h5 style="font-family: georgia"><b>Business Centre</b></h5>
                     <p style="font-family: georgia">The business centre offers a full range of services and amenities. Facilities include a private busniess suite with a main office and separate reception area. Always available for small meeting rooms available for hire. 
                 </div>
                 <div class="col-6 col-md-3">
-                    <img class="w-100" src="img/ballroom2.jpg" style="height: 200px" alt="gambar design layout">
+                    <img class="w-100" src="public/img/ballroom2.jpg" style="height: 200px" alt="gambar design layout">
                     <h6 style="font-family: lora"><i>Events</i></h6>
                     <h5 style="font-family: georgia"><b>The Grand Ballroom and Meeting Room</b></h5>
                     <p style="font-family: georgia">Wheter searching for a sophisticated meeting space a weedding venue or a stylish setting for a special event, leave the arrangements to a team of professionals and savour the magic of the moment while experiencing the thrill of a lifetime.
                 </div>
                 <div class="col-6 col-md-3">
-                    <img class="w-100" src="img/spa.jpg" style="height: 200px" alt="gambar design layout">
+                    <img class="w-100" src="public/img/spa.jpg" style="height: 200px" alt="gambar design layout">
                     <h6 style="font-family: lora"><i>Wellbeing</i></h6>
                     <h5 style="font-family: georgia"><b>Tourism Spa</b></h5>
                     <p style="font-family: georgia">Immerse in the tranquil and refined setting of Tourism Spa, an urban retreat providing a peaceful haven from busy world. revitalise the body and mind with bespoke massages that combine Oriental and Western techniques for a uniquely personalised experience.<p>

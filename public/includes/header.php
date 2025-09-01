@@ -163,34 +163,40 @@ session_start();
         }
 
         /* ===== Perbaikan untuk Carousel ===== */
-#hotelCarousel .carousel-inner {
-    height: 600px; /* Atur tinggi carousel sesuai keinginan, misal 600px */
-}
+        #hotelCarousel .carousel-inner {
+            height: 600px;
+            /* Atur tinggi carousel sesuai keinginan, misal 600px */
+        }
 
-#hotelCarousel .carousel-item {
-    height: 100%;
-}
+        #hotelCarousel .carousel-item {
+            height: 100%;
+        }
 
-#hotelCarousel .carousel-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ini adalah bagian terpenting */
-    object-position: center; /* Memastikan gambar terpusat */
-}
+        #hotelCarousel .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ini adalah bagian terpenting */
+            object-position: center;
+            /* Memastikan gambar terpusat */
+        }
 
-/* Penyesuaian untuk layar yang lebih kecil (mobile) */
-@media (max-width: 768px) {
-    #hotelCarousel .carousel-inner {
-        height: 400px; /* Tinggi yang lebih sesuai untuk mobile */
-    }
-}
+        /* Penyesuaian untuk layar yang lebih kecil (mobile) */
+        @media (max-width: 768px) {
+            #hotelCarousel .carousel-inner {
+                height: 400px;
+                /* Tinggi yang lebih sesuai untuk mobile */
+            }
+        }
 
-@media (max-width: 576px) {
-    #hotelCarousel .carousel-inner {
-        height: 300px; /* Tinggi yang lebih sesuai untuk mobile dengan layar sangat kecil */
-    }
-}
-/* ===== Akhir Perbaikan Carousel ===== */
+        @media (max-width: 576px) {
+            #hotelCarousel .carousel-inner {
+                height: 300px;
+                /* Tinggi yang lebih sesuai untuk mobile dengan layar sangat kecil */
+            }
+        }
+
+        /* ===== Akhir Perbaikan Carousel ===== */
     </style>
 </head>
 
@@ -198,7 +204,7 @@ session_start();
     <header class="site-header">
         <div class="top-bar d-flex justify-content-between align-items-center">
             <a href="index.php" class="logo d-flex align-items-center text-decoration-none">
-                <img src="img/logoputih.png" alt="Tourism Hotel Logo">
+                <img src="public/img/logo.png" alt="Tourism Hotel Logo">
                 <span class="logo-text ms-2 d-none d-sm-block">Stay, Explore, Enjoy</span>
             </a>
             <a href="booknow.php" class="book-btn">BOOK NOW</a>
@@ -211,11 +217,11 @@ session_start();
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#facilities">Facilities</a></li>
                         <li class="nav-item"><a class="nav-link" href="#room">Room Types</a></li>
-                        <li class="nav-item"><a class="nav-link" href="../login.php">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>
                     </ul>
                 </div>
             </div>

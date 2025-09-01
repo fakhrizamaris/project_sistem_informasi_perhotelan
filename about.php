@@ -184,7 +184,7 @@
   <header class="site-header">
     <div class="top-bar" style="background-color: #012A2A">
       <div class="logo">
-        <img src="img/logo.png" alt="Tourism Hotel Logo">
+        <img src="public/img/logo.png" alt="Tourism Hotel Logo">
         <span class="logo-text">Stay-Explore-Enjoy</span>
       </div>
     </div>
@@ -218,7 +218,7 @@
     <hr>
     <div class="container text-center">
       <h1 class="display-4" style="font-family: Poppins;">Our History</h1>
-      <img src="img/sejarah.jpg" width="500 px">
+      <img src="public/img/sejarah.jpg" width="500 px">
       <br>
       <br>
       <p style="font-family: lora; font-size: 18px; text-align: center;">Hotel Tourism was established in 1985 as a modest family-run inn. Located in the heart of the city, the hotel initially offered only 10 rooms and served local travelers visiting for business or leisure.</p>

@@ -8,13 +8,13 @@
   </div>
   <div class="carousel-inner slideshow-container">
     <div class="carousel-item active">
-      <img src="img/tourismhotel.jpg" class="d-block w-100" alt="Hotel Exterior">
+      <img src="public/img/tourismhotel.jpg" class="d-block w-100" alt="Hotel Exterior">
     </div>
     <div class="carousel-item">
-      <img src="img/receptionist.jpg" class="d-block w-100" alt="Receptionist">
+      <img src="public/img/receptionist.jpg" class="d-block w-100" alt="Receptionist">
     </div>
     <div class="carousel-item">
-      <img src="img/executive.jpg" class="d-block w-100" alt="Executive Room">
+      <img src="public/img/executive.jpg" class="d-block w-100" alt="Executive Room">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#hotelCarousel" data-bs-slide="prev">
@@ -39,10 +39,10 @@
             <p class="text-center text-md-start">Enjoy an exceptional dining experience with a wide selection of dishes, crafted by our skilled chefs. Our restaurant is the perfect place for any occasion.</p>
           </div>
           <div class="col-6 col-md-3">
-            <img class="img-fluid rounded shadow" src="img/restaurant1.png" alt="Restaurant View 1">
+            <img class="img-fluid rounded shadow" src="public/img/restaurant1.png" alt="Restaurant View 1">
           </div>
           <div class="col-6 col-md-3">
-            <img class="img-fluid rounded shadow" src="img/restaurant2.png" alt="Restaurant View 2">
+            <img class="img-fluid rounded shadow" src="public/img/restaurant2.png" alt="Restaurant View 2">
           </div>
         </div>
       </div>
@@ -52,10 +52,10 @@
       <div class="container">
         <div class="row align-items-center g-4">
           <div class="col-6 col-md-3">
-            <img class="img-fluid rounded shadow" src="img/pool1.jpg" alt="Swimming Pool 1">
+            <img class="img-fluid rounded shadow" src="public/img/pool1.jpg" alt="Swimming Pool 1">
           </div>
           <div class="col-6 col-md-3">
-            <img class="img-fluid rounded shadow" src="img/pool2.jpg" alt="Swimming Pool 2">
+            <img class="img-fluid rounded shadow" src="public/img/pool2.jpg" alt="Swimming Pool 2">
           </div>
           <div class="col-md-6 text-center text-md-end">
             <h2 class="section-title d-inline-block">Swimming Pool</h2>
@@ -70,7 +70,7 @@
 
 <div class="container-fluid p-0">
   <div class="position-relative text-center">
-    <img src="img/bookbed.jpg" alt="Comfortable Bed" class="img-fluid">
+    <img src="public/img/bookbed.jpg" alt="Comfortable Bed" class="img-fluid">
     <div class="position-absolute top-50 start-50 translate-middle bg-white bg-opacity-75 p-4 rounded shadow">
       <h3 class="text-dark">Find More Facilities</h3>
       <a href="findmore.php" class="btn btn-outline-dark mt-2">Discover More</a>
@@ -88,7 +88,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card h-100">
-          <img src="img/executive.jpg" class="card-img-top" alt="Suite Room">
+          <img src="public/img/executive.jpg" class="card-img-top" alt="Suite Room">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">Suite</h5>
             <p class="card-text">A spacious and luxurious room with premium facilities for maximum comfort.</p>
@@ -106,7 +106,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card h-100">
-          <img src="img/deluxe.jpg" class="card-img-top" alt="Deluxe Room">
+          <img src="public/img/deluxe.jpg" class="card-img-top" alt="Deluxe Room">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">Deluxe</h5>
             <p class="card-text">An elegant room with modern design and complete amenities for extra comfort.</p>
@@ -124,7 +124,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card h-100">
-          <img src="img/standard.jpg" class="card-img-top" alt="Standard Room">
+          <img src="public/img/standard.jpg" class="card-img-top" alt="Standard Room">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">Standard</h5>
             <p class="card-text">A cozy, simple, and functional room for a pleasant stay at an affordable rate.</p>

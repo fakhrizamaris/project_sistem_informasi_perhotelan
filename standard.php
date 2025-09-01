@@ -278,8 +278,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" style="font-weight: font-family: georgia bold; font-size: 20px;" href="about.php">About</a></li>
-          <li class="nav-item"><a class="nav-link" style="font-weight: font-family: georgia bold; font-size: 20px;" href="index.php">Home</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-weight: bold; font-family: georgia; font-size: 20px;" href="about.php">About</a></li>
+          <li class="nav-item"><a class="nav-link" style="font-weight: bold; font-family: georgia; font-size: 20px;" href="index.php">Home</a></li>
         </ul>
       </div>
     </div>
